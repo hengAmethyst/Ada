@@ -1,0 +1,12 @@
+{
+  "pages": [
+    "pages/restaurant/main",
+    "pages/index/main"
+  ],
+  "window": {
+    "backgroundTextStyle": "light",
+    "navigationBarBackgroundColor": "#1a1a1a",
+    "navigationBarTitleText": "Ada",
+    "navigationBarTextStyle": "#fff"
+  }
+}
