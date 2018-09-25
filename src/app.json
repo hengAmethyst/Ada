@@ -1,6 +1,6 @@
 {
   "pages": [
-    "pages/restaurant/list/main",
+    "pages/restaurant/details/main",
     "pages/index/main"
   ],
   "window": {

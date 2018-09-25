@@ -1,2 +1,15 @@
 // 主题色
 $theme-color: #1a1a1a;
+
+//小程序默认样式初始化
+::-webkit-scrollbar {
+	width: 0;
+	height: 0;
+	color: transparent;
+}
+button{
+	border-radius:0;
+}
+button::after {
+  	border: none;
+}
