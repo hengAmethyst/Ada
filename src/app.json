@@ -1,7 +1,11 @@
 {
   "pages": [
     "pages/restaurant/details/main",
-    "pages/index/main"
+    "pages/index/main",
+
+
+    "pages/user/userInfo/main",
+    "pages/user/userOrder/main"
   ],
   "window": {
     "backgroundTextStyle": "light",
