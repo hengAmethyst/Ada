@@ -1,16 +1,11 @@
 {
   "pages": [
-<<<<<<< HEAD
-    "pages/restaurant/menu/main",
-    "pages/index/main"
-=======
     "pages/restaurant/details/main",
     "pages/index/main",
 
 
     "pages/user/userInfo/main",
     "pages/user/userOrder/main"
->>>>>>> de3a3d8fef84a74ab193c10ee7beba47989a5cfd
   ],
   "window": {
     "backgroundTextStyle": "light",
