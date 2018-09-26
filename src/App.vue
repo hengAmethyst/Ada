@@ -15,6 +15,9 @@ export default {
     justify-content: space-between;
     box-sizing: border-box;
   }
+  page{
+    height: 100%;
+  }
   /* this rule will be remove */
   * {
     transition: width 2s;
