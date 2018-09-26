@@ -1,5 +1,5 @@
 <template>
-  <div class="restaurant" @scroll="bindScroll">
+  <div class="wrap" @scroll="bindScroll">
     <div class="info">
       <div class="hello">
         <span>Hello，</span>
@@ -112,7 +112,7 @@ export default {
 
 <style lang="scss" scoped>
   @import "@/sass/common.scss";
-  .restaurant{
+  .wrap{
     width: 100%;
     .info{
       width: 100%;
