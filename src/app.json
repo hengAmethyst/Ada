@@ -1,7 +1,7 @@
 {
   "pages": [
     "pages/index/main",
-    "pages/restaurant/details/main",
+    "pages/restaurant/introduction/main",
     "pages/restaurant/list/main",
     "pages/restaurant/menu/main",
     "pages/restaurant/search/main",

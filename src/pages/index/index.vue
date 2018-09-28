@@ -1,5 +1,18 @@
 <template>
   <div class="home">
+    <div class="section-1">
+      <div class="section-1-1">
+        <div class="centigrade-wrap">
+          <span class="centigrade">{{weatherInfo.centigrade}}</span><span>°</span>
+        </div>
+      </div>
+      <div class="section-1-2">
+        <div class="welcoming">{{weatherInfo.welcoming}}</div>
+        <div class="icon-wrap">
+          <i class="icon-scan"></i>
+        </div>
+      </div>
+    </div>
     <div class="section-2">
       <div class="section-2-1">
         了解Ada
@@ -21,6 +34,11 @@
 export default {
   data () {
     return {
+      weatherInfo:{
+        centigrade:'27',
+        centigradeimage:'http://cdn.awbchina.com/wximage/timg.png',
+        welcoming:'天气好啦，喝个咖啡吧'
+      },
     }
   },
 
@@ -48,33 +66,89 @@ export default {
     flex-direction: column;
     width: 100%;
     height: 100%;
+    .section-1{
+      padding-left:40px;
+      padding-right:10px;
+      margin-bottom:10px;
+      background-color:#f1f1f1;
+      .section-1-1{
+        width: 100%;
+        height:140px;
+        position:relative;
+        .centigrade-wrap{
+          position:absolute;
+          left:0;
+          bottom:0;
+          height:112px;
+          font-family:WeibeiTC-Bold;
+          font-size:80px;
+          line-height:112px;
+          .centigrade{
+            font-size:80px;
+            font-weight:500;
+            color:rgba(1,1,1,1);
+          }
+        }
+      }
+      .section-1-2{
+        height:40px;
+        display:flex;
+        .welcoming{
+          height:26px;
+          font-size:15px;
+          font-family:PingFangSC-Regular;
+          font-weight:400;
+          color:rgba(102,102,102,1);
+          line-height:26px;
+          flex:1;
+        }
+        .icon-wrap{
+          .icon-scan{
+            background-image:url($image-url + 'default.png');
+            width:30px;
+            height:30px;
+            background-image:100% 100%;
+          }
+        }
+      }
+    }
     .section-2{
       display: flex;
       flex-direction: column;
+      padding-left:40px;
       width: 100%;
+      &>div{
+        margin-bottom:10px;
+      }
       .section-2-1{
         display: flex;
         justify-content: center;
         align-items: center;
         width: 100%;
-        height: 300rpx;
-        background: yellow;
+        height:140px;
+        background:rgba(1,1,1,1);
+        background-image:url($image-url + 'timg.png');
+        background-size:cover;
       }
       .section-2-2{
         display: flex;
         justify-content: center;
         align-items: center;
         width: 100%;
-        height: 300rpx;
-        background: blue;
+        height:140px;
+        background:rgba(1,1,1,1);
+        background-image:url($image-url + 'timg.png');
+        background-size:cover;
       }
       .section-2-3{
         display: flex;
         justify-content: center;
         align-items: center;
         width: 100%;
-        height: 300rpx;
-        background: pink;
+        height:140px;
+        background:rgba(1,1,1,1);
+        background-image:url($image-url + 'timg.png');
+        background-size:cover;
       }
     }
   }
