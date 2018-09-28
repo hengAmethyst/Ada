@@ -1,5 +1,6 @@
 {
   "pages": [
+    "pages/restaurant/booked/main",
     "pages/index/main",
     "pages/restaurant/details/main",
     "pages/restaurant/list/main",
