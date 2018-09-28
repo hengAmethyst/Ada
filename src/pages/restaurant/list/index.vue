@@ -13,11 +13,11 @@
         <i class="iconfont"></i>
         <span>这是什么菜?</span>
       </div>
-      <div class="search"></div>
+      <div class="search" @click="bindToSearch"></div>
     </div>
     <div class="content">
       <ul>
-        <li v-for="(rest, restIndex) in restaurantList" :key="rest.id">
+        <li v-for="(rest, restIndex) in restaurantList" :key="rest.id" @click="bindToDetails">
           <div class="left">
             <div class="image-wrap">
               <img :src="rest.image" alt="">
@@ -101,6 +101,16 @@ export default {
   methods: {
     bindScroll (e) {
       console.log(e)
+    },
+    bindToDetails(){
+      wx.navigateTo({
+        url: '/pages/restaurant/details/main'
+      })
+    },
+    bindToSearch(){
+      wx.navigateTo({
+        url: '/pages/restaurant/search/main'
+      })
     }
   },
 

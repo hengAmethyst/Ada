@@ -17,7 +17,7 @@
       <div class="section-2-1">
         了解Ada
       </div>
-      <div class="section-2-2" @click="toList">
+      <div class="section-2-2" @click="bindToList">
         ada餐厅
       </div>
       <div class="section-2-3">
@@ -46,7 +46,7 @@ export default {
   },
 
   methods: {
-    toList(){
+    bindToList(){
       wx.navigateTo({
         url: '/pages/restaurant/list/main'
       })

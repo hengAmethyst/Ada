@@ -59,8 +59,8 @@
       <div class="nav-wrap">
         <div class="nav">
           <div>
-            <button>菜单</button>
-          </div>
+            <button @click="bindToMenu">菜单</button>
+          </div> 
           <div>
             <button class="book">立即预订</button>
           </div>
@@ -98,6 +98,11 @@ export default {
   methods: {
     bindtab(t){
       this.tabCurShow = t;
+    },
+    bindToMenu(){
+      wx.navigateTo({
+        url: '/pages/restaurant/menu/main'
+      })
     }
   },
 
