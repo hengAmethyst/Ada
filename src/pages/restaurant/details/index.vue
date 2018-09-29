@@ -62,7 +62,7 @@
             <button @click="bindToMenu">菜单</button>
           </div> 
           <div>
-            <button class="book">立即预订</button>
+            <button class="booking" @click="bindToBooking">立即预订</button>
           </div>
         </div>
       </div>
@@ -103,6 +103,11 @@ export default {
       wx.navigateTo({
         url: '/pages/restaurant/menu/main'
       })
+    },
+    bindToBooking(){
+      wx.navigateTo({
+        url: '/pages/restaurant/booking/main'
+      }) 
     }
   },
 
@@ -257,7 +262,7 @@ export default {
             font-family:PingFangSC-Medium;
             font-weight:500;
           }
-          button.book{
+          button.booking{
             background:rgba(225,11,34,1);
             color:rgba(255,255,255,1);
           }
