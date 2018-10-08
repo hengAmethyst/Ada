@@ -70,8 +70,8 @@
         </div>
       </div>
     </div>
-    <div class="submit">
-      <div class="icon-wrap" @click="bindToBooked">
+    <div class="submit" @click="bindToBooked">
+      <div class="icon-wrap">
         <i class="icon-right"></i>
       </div>
       <div class="icon-wrap icon-minus-wrap">

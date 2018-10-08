@@ -2,11 +2,22 @@
   <div class="wrap">
   	<div class="head">
   		<div class="success">
-  			<span>预订成功</span>
+        <span v-if="bookedWait">等待支付</span>
+        <span v-if="bookedSuccess">预订成功</span>
+  			<span v-if="bookedFail">取消支付</span>
   		</div>
   		<div class="text">
-  			<span>您的餐位已被确定，请你按时到店就餐，最晚为您保留至</span>
-  			<span>{{bookedInfo.deadline}}</span>
+        <div v-if="bookedWait">
+          <span>请在15分钟内完成支付，超时后你需要重新排队剩余时间</span>
+          <span>{{bookedInfo.remainingTime}}</span>
+        </div>
+        <div v-if="bookedSuccess">
+          <span>您的餐位已被确定，请你按时到店就餐，最晚为您保留至</span>
+          <span>{{bookedInfo.deadline}}</span>
+        </div>
+        <div v-if="bookedFail">
+          <span>您已经成功取消餐位预订</span>
+        </div>
   		</div>
   	</div>
   	<div class="content">
@@ -34,13 +45,12 @@
   				<div>
   					<span>{{bookedInfo.numberPeople}}<span>人</span></span>
   					<span>{{bookedInfo.seat}}<span>（座位号）</span></span>
-  					
   				</div>
   			</div>
   		</div>
   	</div>
   	<div class="nav">
-  		<ul>
+  		<ul v-if="bookedWait">
   			<li class="tool">
   				<div>
   					<div class="icon-wrap"><i></i></div>
@@ -48,19 +58,39 @@
   				</div>
   				<div>
   					<div class="icon-wrap"><i></i></div>
-  					<div>留言</div>
-  				</div>
-  				<div>
-  					<div class="icon-wrap"><i></i></div>
   					<div>分享</div>
   				</div>
   			</li>
   			<li class="ordering-wrap">
-  				<div class="ordering">
-  					点餐
+  				<div class="ordering" @click="pay">
+  					支付
   				</div>
   			</li>
   		</ul>
+      <ul v-if="bookedSuccess">
+        <li class="tool">
+          <div>
+            <div class="icon-wrap"><i></i></div>
+            <div>取消</div>
+          </div>
+          <div>
+            <div class="icon-wrap"><i></i></div>
+            <div>留言</div>
+          </div>
+          <div>
+            <div class="icon-wrap"><i></i></div>
+            <div>分享</div>
+          </div>
+        </li>
+        <li class="ordering-wrap"  @click="bindToMenu">
+          <div class="ordering" @click="bindToMenu">
+            点餐
+          </div>
+        </li>
+      </ul>
+       <ul v-if="bookedFail">
+        <li class="align">再次预定</li>
+      </ul>
   	</div>
   </div>
 </template>
@@ -71,6 +101,7 @@ export default {
   data () {
     return {
     	bookedInfo:{
+        remainingTime:'13:52',
     		deadline:'20:00',
     		image:'http://cdn.awbchina.com/wximage/timg.png',
     		name:"A Boluza 阿波罗意大利餐厅",
@@ -80,7 +111,10 @@ export default {
     		adress:"蜀汉大道82号奥克斯广场5楼1809号",
     		numberPeople:"5",
     		seat:"A8",
-    	}
+    	},
+      bookedFail:0,
+      bookedSuccess:0,
+      bookedWait:1,
     }
   },
 
@@ -88,6 +122,16 @@ export default {
   },
 
   methods: {
+    bindToMenu(){
+      wx.navigateTo({
+        url: '/pages/restaurant/menu/main'
+      }) 
+    },
+    pay(){
+      this.bookedSuccess = 1;
+      this.bookedFail = 0;
+      this.bookedWait = 0;
+    }
   },
 
   created () {
@@ -103,6 +147,7 @@ export default {
   		background-color: $theme-color;
   		color: #fff;
   		padding:40px;
+      min-height:120px;
   		.success{
 			font-size:48px;
 			font-family:PingFangSC-Medium;
@@ -212,6 +257,17 @@ export default {
   			li.ordering-wrap{
   				padding: 0 20px;
   			}
+        li.align{
+          width:100%;
+          height:50px;
+          line-height:50px;
+          background:rgba(225,11,34,1);
+          box-shadow:0px 16px 34px 0px rgba(0,0,0,0.16);
+          font-size:17px;
+          font-family:PingFangSC-Medium;
+          font-weight:500;
+          color:rgba(255,255,255,1);
+        }
   		}
   	}
   }
