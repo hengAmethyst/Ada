@@ -7,8 +7,12 @@
     "pages/restaurant/list/main",
     "pages/restaurant/menu/main",
     "pages/restaurant/search/main",
+    "pages/restaurant/scanQR/main",
+
+
     "pages/user/userInfo/main",
-    "pages/user/userOrder/main"
+    "pages/user/userOrder/main",
+    "pages/user/login/main"
   ],
   "window": {
     "backgroundTextStyle": "light",
