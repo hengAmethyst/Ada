@@ -86,7 +86,7 @@
             </div>
           </div>
         </div>
-        <div class="ordering-info">
+        <div class="ordering-info" @click="bindToOrdered">
           <div class="ordering-wrap">
             <div class="left">
               <div class="pieces-wrap">{{orderingInfo.pieces}}</div>
@@ -251,6 +251,11 @@ export default {
   },
 
   methods: {
+    bindToOrdered(){
+      wx.navigateTo({
+        url: '/pages/restaurant/ordered/main'
+      }) 
+    }
   },
 
   created () {

@@ -1,8 +1,8 @@
 <template>
   <div class="wrap">
       <div class="info">
-        <div class="title">
-            {{details.title}}
+        <div class="name">
+            {{details.name}}
         </div>
         <div class="describe">
             {{details.describe}}
@@ -76,7 +76,7 @@ export default {
     return {
       tabCurShow:'tab1',
       details:{
-        title:'A Boluza 阿波罗意大利餐厅',
+        name:'A Boluza 阿波罗意大利餐厅',
         describe:'蜀国飘香，成都最火爆的人气餐厅之一，主要以火锅为主，深受广大食客喜爱。',
         time:'9:00AM~21:00PM',
         state:1,
@@ -128,7 +128,7 @@ export default {
     background:linear-gradient(180deg,rgba(26,26,26,0.4) 0%,rgba(26,26,26,1) 100%);
     .info{
       padding:20px 20px;
-      .title{
+      .name{
         height:36px;
         font-size:22px;
         font-family:PingFangSC-Medium;
