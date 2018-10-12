@@ -4,15 +4,18 @@
       <div class="hello">
         <span>Hello，</span>
       </div>
-      <div  class="name">
+      <div  class="name" @click="bindToUserOrder">
         <span>
           {{userinfo.name}}
         </span>
       </div>
       <div  class="what">
-        <i class="iconfont"></i>
-        <span>这是什么菜?</span>
+        <div class="icon-wrap">
+            <i></i>
+        </div>
+        <span>这是什么菜 ？</span>
       </div>
+      <screen></screen>   
       <div class="search" @click="bindToSearch"></div>
     </div>
     <div class="content">
@@ -48,12 +51,16 @@
           </div>
         </li>
       </ul>
-    </div>    
+    </div> 
+    <invitation :invitationShow="invitationShow"></invitation>   
+    <welcome :welcomeShow="welcomeShow"></welcome>   
   </div>
 </template>
 
 <script>
-
+import invitation from '@/components/restaurant/invitation';
+import welcome from '@/components/restaurant/welcome';
+import screen from '@/components/restaurant/screen';
 export default {
   data () {
     return {
@@ -91,11 +98,16 @@ export default {
           state: 1,
           range: '100m'
         }
-      ]
+      ],
+      invitationShow:0,
+      welcomeShow:0
     }
   },
 
   components: {
+    invitation,
+    welcome,
+    screen  
   },
 
   methods: {
@@ -110,6 +122,11 @@ export default {
     bindToSearch(){
       wx.navigateTo({
         url: '/pages/restaurant/search/main'
+      })
+    },
+    bindToUserOrder(){
+       wx.navigateTo({
+        url: '/pages/user/userOrder/main'
       })
     }
   },
@@ -132,7 +149,7 @@ export default {
       box-sizing: border-box;
       padding-left: 20px;
       padding-top: 20px;
-      padding-bottom: 20px;
+      padding-bottom: 10px;
       .hello{
         opacity: 0.5;
         color: rgba(253, 253, 253, 1);
@@ -150,14 +167,28 @@ export default {
         padding-top: 10px;
         opacity: 0.5;
         color: rgba(253, 253, 253, 1);
-        text-decoration:underline
+        margin-bottom:30px;
+        display:flex;
+        align-items:center;
+        .icon-wrap{
+          width:20px;
+          height:20px;
+          opacity:0.5;
+          border:2px solid rgba(255,255,255,1);
+
+        }
+        span{
+          margin-left:8px;
+          padding-bottom:2px;
+          border-bottom:1px solid rgba(255,255,255,1);
+        }
       }
       .search{
         position: absolute;
         right: 20px;
         bottom: -15px;
-        width: 32px;
-        height: 32px;
+        width: 40px;
+        height: 40px;
         border-radius:50%;
         background-color: rgba(225, 11, 34, 1);
         box-shadow: 0px 16px 34px 0px rgba(0, 0, 0, 0.16);
