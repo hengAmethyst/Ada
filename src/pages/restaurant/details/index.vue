@@ -15,10 +15,13 @@
       <div class="content">
         <div class="tab-content">
           <div class="tab1 con" v-show="tabCurShow == 'tab1'">
+          <!-- 餐厅图 -->
             <div class="image-list">
               <ul>
                 <li v-for="(rest, restIndex) in restaurantImage.image" :key="restIndex">
-                    <img :src="rest" alt="">
+                    <div class="image-wrap">
+                      <img :src="rest" alt="">
+                    </div>
                 </li>
               </ul>
             </div>
@@ -30,13 +33,42 @@
             </div>
           </div>
           <div class="tab2 con" v-show="tabCurShow == 'tab2'">
-            全景图
+          <!-- 全景图 -->
+            <div class="image-list">
+               <ul>
+                <li v-for="(pan, panIndex) in panorama.image" :key="panIndex">
+                    <div class="image-wrap">
+                      <img :src="pan" alt="">
+                    </div>
+                </li>
+              </ul>
+            </div>
           </div>
           <div class="tab3 con" v-show="tabCurShow == 'tab3'">
-            特色菜品
+            <div class="image-list">
+              <ul>
+                <li v-for="(spe, speIndex) in specialCuisine" :key="speIndex">
+                    <div class="image-wrap">
+                      <img :src="spe.image" alt="">
+                    </div>
+                    <div class="name">
+                      {{spe.name}}
+                    </div>
+                </li>
+              </ul>
+            </div>
           </div>
           <div class="tab4 con"  v-show="tabCurShow == 'tab4'">
-            座位类型
+            <!-- 座位类型 -->
+            <div class="image-list">
+               <ul>
+                <li v-for="(sea, seaIndex) in seat.image" :key="seaIndex">
+                    <div class="image-wrap">
+                      <img :src="sea" alt="">
+                    </div>
+                </li>
+              </ul>
+            </div>
           </div>
         </div>
         <div class="tab">
@@ -66,55 +98,110 @@
           </div>
         </div>
       </div>
+      <imageEnlarge :enlargeImageShow="enlargeImageShow" :enlargeImageList="restaurantImage.image"></imageEnlarge>
   </div>
 </template>
 
 <script>
-
-export default {
-  data () {
-    return {
-      tabCurShow:'tab1',
-      details:{
-        name:'A Boluza 阿波罗意大利餐厅',
-        describe:'蜀国飘香，成都最火爆的人气餐厅之一，主要以火锅为主，深受广大食客喜爱。',
-        time:'9:00AM~21:00PM',
-        state:1,
-      },
-      restaurantImage:{
-        image:[
-          'http://cdn.awbchina.com/wximage/timg.png',
-          'http://cdn.awbchina.com/wximage/timg.png',
-          'http://cdn.awbchina.com/wximage/timg.png'
+  import imageEnlarge from '@/components/restaurant/image-enlarge';
+  export default {
+    data () {
+      return {
+        tabCurShow:'tab1',
+        details:{
+          name:'A Boluza 阿波罗意大利餐厅',
+          describe:'蜀国飘香，成都最火爆的人气餐厅之一，主要以火锅为主，深受广大食客喜爱。',
+          time:'9:00AM~21:00PM',
+          state:1,
+        },
+        restaurantImage:{
+          image:[
+            'http://cdn.awbchina.com/wximage/timg.png',
+            'http://cdn.awbchina.com/wximage/timg.png',
+            'http://cdn.awbchina.com/wximage/timg.png'
+          ],
+          address:'武侯区紫杉路11号'
+        },
+        panorama:{
+          image:[
+            'http://cdn.awbchina.com/wximage/timg.png'
+          ]
+        },
+        specialCuisine:[
+          {
+            id:1,
+            image:'http://cdn.awbchina.com/wximage/timg.png',
+            name:'火锅牛排',
+            describe:'兔兔、老姜、麻辣，上层原材料制作，挑战你的味蕾',
+            price:'78',
+            pieces:1
+          },
+          {
+            id:2,
+            image:'http://cdn.awbchina.com/wximage/timg.png',
+            name:'冰冻鳕鱼',
+            describe:'兔兔、老姜、麻辣，上层原材料制作，挑战你的味蕾',
+            price:'46',
+            pieces:''
+          },
+          {
+            id:2,
+            image:'http://cdn.awbchina.com/wximage/timg.png',
+            name:'冰冻鳕鱼',
+            describe:'兔兔、老姜、麻辣，上层原材料制作，挑战你的味蕾',
+            price:'46',
+            pieces:''
+          },
+          {
+            id:2,
+            image:'http://cdn.awbchina.com/wximage/timg.png',
+            name:'冰冻鳕鱼',
+            describe:'兔兔、老姜、麻辣，上层原材料制作，挑战你的味蕾',
+            price:'46',
+            pieces:''
+          },
+          {
+            id:2,
+            image:'http://cdn.awbchina.com/wximage/timg.png',
+            name:'冰冻鳕鱼',
+            describe:'兔兔、老姜、麻辣，上层原材料制作，挑战你的味蕾',
+            price:'46',
+            pieces:''
+          }
         ],
-        address:'武侯区紫杉路11号'
+        seat:{
+          image:[
+            'http://cdn.awbchina.com/wximage/timg.png'
+          ]
+        },
+        enlargeImageShow:false
       }
-    }
-  },
-
-  components: {
-  },
-
-  methods: {
-    bindtab(t){
-      this.tabCurShow = t;
     },
-    bindToMenu(){
-      wx.navigateTo({
-        url: '/pages/restaurant/menu/main'
-      })
-    },
-    bindToBooking(){
-      wx.navigateTo({
-        url: '/pages/restaurant/booking/main'
-      }) 
-    }
-  },
 
-  created () {
-    // 调用应用实例的方法获取全局数据
+    components: {
+      imageEnlarge
+    },
+
+    methods: {
+      bindtab(t){
+        this.tabCurShow = t;
+      },
+      bindToMenu(){
+        wx.navigateTo({
+          url: '/pages/restaurant/menu/main'
+        })
+      },
+      bindToBooking(){
+        wx.navigateTo({
+          url: '/pages/restaurant/booking/main'
+        }) 
+      }
+    },
+
+    created () {
+      // 调用应用实例的方法获取全局数据
+    }
   }
-}
 </script>
 
 <style lang="scss" scoped>
@@ -188,13 +275,55 @@ export default {
               box-sizing: border-box;
               padding: 0 20px;
               li{
-                min-width:287px;
-                min-height:155px;
-                overflow:hidden;
-                background-color:#f1f1f1;
-                image{
+                .image-wrap{
+                  width:287px;
+                  overflow:hidden;
+                  height:155px;
+                  img{
+                    width:100%;
+                  }
+                }
+              }
+              li:not(:first-child){
+                margin-left:10px;
+              }
+            }
+          }
+        }
+        .tab2,.tab4{
+          .image-list{
+            ul{
+              li{
+                width:100%;
+                .image-wrap{
                   width:100%;
-                  height:100%;
+                  height:210px;
+                }
+              }
+              li:not(:first-child){
+                margin-left:0;
+              }
+            }
+          }
+        }
+        .tab3{
+          .image-list{
+            ul{
+              li{
+                width:100%;
+                .image-wrap{
+                  width:170px;
+                  height:170px;
+                }
+                .name{
+                  background:rgba(255,255,255,1);
+                  font-size:14px;
+                  font-family:PingFangSC-Medium;
+                  font-weight:500;
+                  text-align:center;
+                  height:48px;
+                  line-height:48px;
+                  color:rgba(26,26,26,1);
                 }
               }
               li:not(:first-child){
