@@ -40,7 +40,7 @@ export default {
       this.current = e.target.current
     },
     bindClose(){
-      
+      this.$emit('bindClose');
     }
   },
 

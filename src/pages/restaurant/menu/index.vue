@@ -25,11 +25,13 @@
     <div class="content">
       <div class="tab">
         <ul>
-          <li v-for="(men, menIndex) in menuType" :key="menIndex"  :class="{'active':menuTypeActive == men.id}">
-            <div class="icon-wrap" v-if="menuTypeActive == men.id">
+          <li v-for="(men, menIndex) in menuType" :key="menIndex" :class="{'active':menuTypeActive == menIndex}" @click="bindMenuType(menIndex)">
+            <div class="icon-wrap" v-if="menuTypeActive == menIndex && men.pieces">
               <i class="icon-round">{{men.pieces}}</i>
             </div>
-            <span>{{men.name}}</span>
+            <div class="name">
+              <span>{{men.name}}</span>
+            </div>
           </li>
         </ul>
       </div>
@@ -39,7 +41,7 @@
             <div class="image-wrap">
               <img :src="menu.image" alt="">
             </div>
-            <div class="info">
+            <div class="info" @click.stop="bindMenuList(menuIndex)">
               <div class="name">
                 <span>{{menu.name}}</span>
               </div>
@@ -50,7 +52,7 @@
             <div class="price-wrap">
               <span>￥</span><span class="price">{{menu.price}}</span>
             </div>
-            <input-num :pieces="menu.pieces"></input-num>
+            <input-num :pieces="menu.pieces" @bindInputNum="bindInputNum(menuIndex)"></input-num>
           </li>
         </ul>
       </div>
@@ -86,14 +88,14 @@
             </div>
           </div>
         </div>
-        <div class="ordering-info" @click="bindToOrdered">
+        <div class="ordering-info" @click="bindToOrdered" v-show="orderingInfoShow">
           <div class="ordering-wrap">
             <div class="left">
-              <div class="pieces-wrap">{{orderingInfo.pieces}}</div>
+              <div class="pieces-wrap">{{orderingInfo.TotalPieces}}</div>
             </div>
             <div class="center">
               <div class="name">{{orderingInfo.name}}</div>
-              <div class="icon-wrap"><i class="icon-plus"></i><span>1</span></div>
+              <div class="icon-wrap"><i class="icon-plus"></i><span>{{orderingInfo.curPieces}}</span></div>
             </div>
             <div class="right"><i class="icon-right"></i></div>
           </div>
@@ -107,7 +109,7 @@ import InputNum from '@/components/common/input-num'
 export default {
   data () {
     return {
-      menuTypeActive:1,
+      menuTypeActive:0,
       order:1,
       friends:1,
       friendsList:[
@@ -240,9 +242,11 @@ export default {
         }
       ],
       orderingInfo:{
-        pieces:5,
-        name:'火锅牛排'
-      }
+        TotalPieces:5,
+        name:'火锅牛排',
+        curPieces:1
+      },
+      orderingInfoShow:0
     }
   },
 
@@ -255,6 +259,26 @@ export default {
       wx.navigateTo({
         url: '/pages/restaurant/ordered/main'
       }) 
+    },
+    bindMenuType(index){
+      this.menuTypeActive = index;
+    },
+    orderingInfoHidden(){
+      this.orderingInfoShow = 0;
+    },
+    bindMenuList(index){
+      this.menuList[index].pieces ++ ;
+      this.orderingInfoShow = 1;
+      setTimeout(this.orderingInfoHidden,3000); 
+    },
+    bindInputNum(index){
+      if (this.menuList[index].pieces > 0) {
+        this.menuList[index].pieces -- ;
+      }else{
+        this.menuList[index].pieces ++ ;
+      }
+      this.orderingInfoShow = 1;
+      setTimeout(this.orderingInfoHidden,3000); 
     }
   },
 
@@ -327,13 +351,10 @@ export default {
           margin:0 20px;
           border-bottom:1px solid $theme-gray;
           li{
-            margin-right:20px;
+            padding-right:20px;
             font-size:15px;
-            padding:10px 0;
             font-family:PingFangSC-Regular;
             font-weight:400;
-            color:rgba(153,153,153,1);
-            border-bottom:2px solid #fff;
             position:relative;
             .icon-wrap{
               position:absolute;
@@ -348,10 +369,18 @@ export default {
               color:#fff;
               box-shadow:0px 6px 10px 0px rgba(123,0,0,0.2);
             }
+            .name{
+              padding-top:10px;
+              padding-bottom:10px;
+              border-bottom:2px solid #fff;
+              color:rgba(153,153,153,1);
+            }
           }
           li.active{
-            border-bottom-color:$theme-highlight;
-            color:$theme-highlight;
+            .name{
+              border-bottom-color:$theme-highlight;
+              color:$theme-highlight;
+            }
           }
         }
       }
@@ -419,7 +448,7 @@ export default {
         bottom:0;
         left:0;
         background:linear-gradient(360deg,rgba(255,255,255,1) 0%,rgba(255,255,255,0.8) 100%);
-        box-shadow:0px -1px 0px 0px rgba(0,0,0,0.2);
+        // box-shadow:0px -1px 0px 0px rgba(0,0,0,0.2);
         .nav{
           display: flex;
           padding: 10px;
@@ -480,7 +509,7 @@ export default {
         height:45px;
         bottom:80px;
         background:rgba(255,255,255,1);
-        box-shadow:0px 10px 20px 0px rgba(0,0,0,0.3);
+        box-shadow:0px 5px 10px 0px rgba(0,0,0,0.3);
         .ordering-wrap{
           height:100%;
           padding:0 10px 0 20px;
@@ -554,17 +583,17 @@ export default {
                 background:$theme-color;
                 content: "";
                 position: absolute;  /*方便进行定位*/
-                height: 12px;
+                height: 10px;
                 width: 2px;
-                top: 7px;
+                top: 5px;
                 right: 14px;  /*设置top和right使图像在20*20框中居中*/
               }
               .icon-right::before{
                   transform: rotate(-45deg);  /*进行旋转*/
-                  top:3px;
+                  top:6px;
               }
               .icon-right::after{
-                  top:11px;
+                  top:12px;
                   transform: rotate(45deg);
               }
           }

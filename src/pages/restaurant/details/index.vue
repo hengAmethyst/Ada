@@ -18,7 +18,7 @@
           <!-- 餐厅图 -->
             <div class="image-list">
               <ul>
-                <li v-for="(rest, restIndex) in restaurantImage.image" :key="restIndex">
+                <li v-for="(rest, restIndex) in restaurantImage.image" :key="restIndex" @click="bindEnlargeImage">
                     <div class="image-wrap">
                       <img :src="rest" alt="">
                     </div>
@@ -47,7 +47,7 @@
           <div class="tab3 con" v-show="tabCurShow == 'tab3'">
             <div class="image-list">
               <ul>
-                <li v-for="(spe, speIndex) in specialCuisine" :key="speIndex">
+                <li v-for="(spe, speIndex) in specialCuisine" :key="speIndex" @click="bindToMenu">
                     <div class="image-wrap">
                       <img :src="spe.image" alt="">
                     </div>
@@ -98,7 +98,7 @@
           </div>
         </div>
       </div>
-      <imageEnlarge :enlargeImageShow="enlargeImageShow" :enlargeImageList="restaurantImage.image"></imageEnlarge>
+      <imageEnlarge :enlargeImageShow="enlargeImageShow" :enlargeImageList="restaurantImage.image" @bindClose="bindClose"></imageEnlarge>
   </div>
 </template>
 
@@ -183,6 +183,12 @@
     },
 
     methods: {
+      bindEnlargeImage(){
+        this.enlargeImageShow = true;
+      },
+      bindClose(){
+        this.enlargeImageShow = false;
+      },
       bindtab(t){
         this.tabCurShow = t;
       },

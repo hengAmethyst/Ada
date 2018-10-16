@@ -1,15 +1,18 @@
 <template>
-  <div class="wrap" @scroll="bindScroll">
-    <div class="info">
-      <div class="hello">
-        <span>Hello，</span>
+  <div class="wrap">
+    <div v-show="!infoShow" class="head-padding"></div>
+    <div class="head" :class="{'head-fixed' : !infoShow}">
+      <div class="info" v-show="infoShow">
+        <div class="hello">
+          <span>Hello，</span>
+        </div>
+        <div  class="name" @click="bindToUserOrder">
+          <span>
+            {{userinfo.name}}
+          </span>
+        </div>
       </div>
-      <div  class="name" @click="bindToUserOrder">
-        <span>
-          {{userinfo.name}}
-        </span>
-      </div>
-      <div  class="what">
+      <div class="what">
         <div class="icon-wrap">
             <i></i>
         </div>
@@ -17,6 +20,11 @@
       </div>
       <screen></screen>   
       <div class="search" @click="bindToSearch"></div>
+      <div class="avatar">
+        <div class="image-wrap">
+          <img src="" alt="">
+        </div>
+      </div>
     </div>
     <div class="content">
       <ul>
@@ -100,7 +108,8 @@ export default {
         }
       ],
       invitationShow:0,
-      welcomeShow:0
+      welcomeShow:0,
+      infoShow:1
     }
   },
 
@@ -109,11 +118,14 @@ export default {
     welcome,
     screen  
   },
-
+  onPageScroll:function(e){
+    if (e.scrollTop >= 120) {
+      this.infoShow = 0
+    }else{
+      this.infoShow = 1
+    }
+  },
   methods: {
-    bindScroll (e) {
-      console.log(e)
-    },
     bindToDetails(){
       wx.navigateTo({
         url: '/pages/restaurant/details/main'
@@ -141,34 +153,37 @@ export default {
   @import "@/sass/common.scss";
   .wrap{
     width: 100%;
-    .info{
+    .head{
       width: 100%;
       position:relative;
       background-color: $theme-color;
       color: #fff;
       box-sizing: border-box;
-      padding-left: 20px;
-      padding-top: 20px;
-      padding-bottom: 10px;
-      .hello{
-        opacity: 0.5;
-        color: rgba(253, 253, 253, 1);
-        font-size:20px;
-      }
-      .name{
-        color: rgba(253, 253, 253, 1);
-        font-size: 48px;
-        padding-top: 10px;
-        text-align: left;
-        font-family: PingFangSC-Regular;
+      .info{
+        padding-top: 20px;
+        .hello{
+          opacity: 0.5;
+          color: rgba(253, 253, 253, 1);
+          font-size:20px;
+          padding-left: 15px;
+        }
+        .name{
+          color: rgba(253, 253, 253, 1);
+          font-size: 48px;
+          padding-top: 10px;
+          text-align: left;
+          padding-left: 15px;
+          font-family: PingFangSC-Regular;
+        }
       }
       .what{
         font-size:15px;
-        padding-top: 10px;
+        padding-top: 20px;
         opacity: 0.5;
         color: rgba(253, 253, 253, 1);
         margin-bottom:30px;
         display:flex;
+        padding-left: 15px;
         align-items:center;
         .icon-wrap{
           width:20px;
@@ -185,7 +200,7 @@ export default {
       }
       .search{
         position: absolute;
-        right: 20px;
+        right: 15px;
         bottom: -15px;
         width: 40px;
         height: 40px;
@@ -193,12 +208,34 @@ export default {
         background-color: rgba(225, 11, 34, 1);
         box-shadow: 0px 16px 34px 0px rgba(0, 0, 0, 0.16);
       }
+      .avatar{
+        position:absolute;
+        width:40px;
+        height:40px;
+        border-radius:50%;
+        background-color:$theme-highlight;
+        right:15px;
+        top:20px;
+      }
+    }
+    .head-fixed{
+      position:fixed;
+      top:0;
+      left:0;
+      z-index:98;
+      .search{
+        right:65px;
+        top:20px;
+      }
+    }
+    .head-padding{
+      height:224px;
     }
     .content{
       width: 100%;
       box-sizing: border-box;
-      padding-left: 10px;
-      padding-right: 10px;
+      padding-left: 15px;
+      padding-right: 15px;
       padding-top: 40px;
       ul{
         width: 100%;

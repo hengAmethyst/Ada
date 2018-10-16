@@ -1,7 +1,7 @@
 <template>
     <div class="input-num" :value="value" v-if="iconShow">
     	<div class="pieces">{{pieces}}</div>
-        <div class="icon-wrap" @click="bingclick">
+        <div class="icon-wrap" @click="bindInputNum">
         	<i :class="iconState"></i>
         </div>
     </div>
@@ -38,10 +38,8 @@
 		    }
 		},
         methods: {
-            cancel(){
-                this.visible = false;
-                console.log('$emit(input');
-                this.$emit('input', this.visible);
+            bindInputNum(){
+                this.$emit('bindInputNum');
             }
         },
     }
