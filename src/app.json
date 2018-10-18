@@ -1,11 +1,11 @@
 {
   "pages": [
+    "pages/index/main",
     "pages/restaurant/booking/main",
     "pages/restaurant/ordered/main",
     "pages/restaurant/menu/main",
     "pages/restaurant/recommend/main",
     "pages/restaurant/location/main",
-    "pages/index/main",
     "pages/restaurant/details/main",
     "pages/restaurant/callService/main",
     "pages/restaurant/feedback/main",

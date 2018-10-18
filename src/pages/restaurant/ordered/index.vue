@@ -124,8 +124,12 @@ export default {
   },
 
   methods: {
-    bindMenuList(ordIndex,oIndex){
-      
+    bindToMeal(){
+      wx.navigateTo({
+        url: '/pages/restaurant/meal/main'
+      })
+    },
+    bindMenuList(ordIndex,oIndex){      
       this.orderedData[ordIndex].ordered[oIndex].pieces ++ ;
     },
     bindInputNum(ordIndex,oIndex){
