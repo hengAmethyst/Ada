@@ -7,7 +7,7 @@
       <div class="tab-center">
         <ul>
           <li v-for="(num, numIndex) in numPeople" :key="numIndex" :class="{'active':numIndex == curNumIndex}">
-            <div class="s-wrap">
+            <div class="s-wrap" @click="bindNumPeople(numIndex)">
               <span>{{num + 1}}</span>
             </div>
           </li>
@@ -21,7 +21,7 @@
       <div class="tab-center">
         <ul>
           <li v-for="(se, seIndex) in seatList" :key="seIndex" :class="{'active':seIndex == curSeIndex}">
-            <div class="s-wrap">
+            <div class="s-wrap" @click="bindSeatList(seIndex)">
               <div class="name">
                 <span>{{se.name}}</span>
               </div>
@@ -42,7 +42,7 @@
       <div class="tab-center">
         <ul>
           <li v-for="(din, dinIndex) in dinnerTime" :key="dinIndex" :class="{'active':dinIndex == curDinIndex}">
-            <div class="s-wrap">
+            <div class="s-wrap" @click="bindDinnerTime(dinIndex)">
               <div class="day">
                 <span>{{din.day}}</span>
               </div>
@@ -55,17 +55,20 @@
       </div>
       <div class="time-wrap">
         <div class="time">
-          <div class="left">
+          <div class="left" data-type ="h" @touchstart="bindTouchstart" @touchend="bindTouchEnd">
             <div class="transverse"></div>
-            <div class="t">09</div>
+            <div class="t">{{hourText}}</div>
           </div>
           <div class="center">
             <div></div>
             <div></div>
           </div>
-          <div class="right">
+          <div class="right" data-type ="m" @touchstart="bindTouchstart" @touchend="bindTouchEnd">
             <div class="transverse"></div>
-            <div class="t">30</div>
+            <div class="t">{{minText}}</div>
+            <div class="pm-am">
+              <span>{{PMorAM}}</span>
+            </div>
           </div>
         </div>
       </div>
@@ -109,7 +112,7 @@ export default {
         }
       ],
       dinnerTime:[
-      {
+        {
           date:'2018-09-28',
           day:'28',
           week:'周五'
@@ -129,18 +132,149 @@ export default {
           day:'01',
           week:'周一'
         },
-      ]
+      ],
+       touchDotX: 0,
+      touchDotY: 0,
+      interval: null,
+      time: 0,
+      hour:9,
+      min:30
     }
   },
 
   components: {
+    
   },
-
+  computed: {
+    hourText(){
+      let t = this.hour ;
+      if (t > 12) {
+        t = t - 12 ; 
+      }
+      if (t == 0) {
+        t = 12
+      }
+      if (t < 10) {
+        return '0' + t;
+      }else{
+        return t;
+      }
+    },
+    minText(){
+      let t = this.min ;
+      if (t < 10) {
+        return '0' + t;
+      }else{
+        return t;
+      }
+    },
+    PMorAM(){
+      let t = this.hour ;
+      if (t < 12) {
+        return 'AM';
+      }else{
+        return 'PM';
+      }    
+    }
+  },
   methods: {
     bindToBooked(){
       wx.navigateTo({
         url: '/pages/restaurant/booked/main'
       }) 
+    },
+    bindTouchstart: function(e) {
+      let _this = this;
+      e = e.mp;
+      _this.touchDotX = e.touches[0].pageX; // 获取触摸时的原点
+      _this.touchDotY = e.touches[0].pageY;
+      // 使用js计时器记录时间    
+      _this.interval = setInterval(function() {
+        _this.time++;
+      }, 100);
+    },
+    // 触摸结束事件
+    bindTouchEnd: function(e) {
+      let _this = this;
+      e = e.mp;
+      let type = e.currentTarget.dataset.type;
+      let touchMoveX = e.changedTouches[0].pageX;
+      let touchMoveY = e.changedTouches[0].pageY;
+      let tmX = touchMoveX - _this.touchDotX;
+      let tmY = touchMoveY - _this.touchDotY;
+      if (_this.time < 20) {
+        let absX = Math.abs(tmX);
+        let absY = Math.abs(tmY);
+        // if (absX > 2 * absY) {
+        //   if (tmX<0){
+        //     console.log("左滑=====")
+        //   }else{
+        //     console.log("右滑=====")
+        //   }
+        // }
+        if (absY > absX * 2) {
+          if ( tmY<0) {
+            //上滑
+            if (type == 'h') {
+              _this.hourSubtract()
+            }else if (type == 'm'){
+              _this.minSubtract()
+            }
+          }else{
+            //下滑
+            if (type == 'h') {
+              _this.hourAdd()
+            }else if (type == 'm'){
+              _this.minAdd()
+            }
+          }
+        }
+      }
+      clearInterval(_this.interval); // 清除setInterval
+      _this.time = 0;
+    },
+    hourAdd(){
+      if (this.hour < 23 && this.hour >= 0) {
+        this.hour ++
+      }else if(this.hour == 23) {
+        this.hour = 0
+      }
+    },
+    hourSubtract(){
+      if (this.hour <= 23 && this.hour > 0) {
+        this.hour --
+      }else if(this.hour == 0) {
+        this.hour = 23
+      }
+    },
+    minAdd(){
+      let min = this.min;
+      if (this.min < 60 && this.min >= 0) {
+        if ( min >= 45 ) {
+          this.min = 60
+        }else{
+          this.min = min + 15;
+        }
+      }
+    },
+    minSubtract(){
+      let min = this.min;
+      if (this.min <= 60 && this.min > 0) {
+        if ( min <= 15 ) {
+          this.min = 0
+        }else{
+          this.min = min - 15
+        }
+      }
+    },
+    bindNumPeople(index){
+      this.curNumIndex = index;
+    },
+    bindSeatList(index){
+      this.curSeIndex = index;
+    },
+    bindDinnerTime(index){
+      this.curDinIndex = index;
     }
   },
 
@@ -246,12 +380,13 @@ export default {
           background:rgba(246,248,251,1);
           position: relative;
           display: flex;
-            align-items:center;
+          align-items:center;
           justify-content: center;
           font-size:50px;
           font-family:Futura-Medium;
           font-weight:500;
           color:rgba(26,26,26,1);
+          overflow: hidden;
           .transverse{
             position: absolute;
             width:80px;
@@ -262,6 +397,22 @@ export default {
           }
           .t{
             position: absolute;
+          }
+          .pm-am{
+            position:absolute;
+            background-color:#fff;
+            box-sizing: border-box;
+            width:30px;
+            height:30px;
+            line-height:30px;
+            font-size:15px;
+            text-align:center;
+            font-family:PingFangSC-Semibold;
+            font-weight:600;
+            color:rgba(102,102,102,1);
+            border-radius:50% 0 0 0;
+            bottom:0;
+            right:0;
           }
         }
         .center{

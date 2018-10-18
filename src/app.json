@@ -1,6 +1,10 @@
 {
   "pages": [
+    "pages/restaurant/booking/main",
+    "pages/restaurant/ordered/main",
     "pages/restaurant/menu/main",
+    "pages/restaurant/recommend/main",
+    "pages/restaurant/location/main",
     "pages/index/main",
     "pages/restaurant/details/main",
     "pages/restaurant/callService/main",
@@ -9,8 +13,6 @@
     "pages/restaurant/booked/main",
     "pages/restaurant/bill/main",
     "pages/restaurant/meal/main",
-    "pages/restaurant/ordered/main",
-    "pages/restaurant/booking/main",
     "pages/restaurant/search/main",
     
     "pages/restaurant/scanQR/main",

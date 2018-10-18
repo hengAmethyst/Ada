@@ -25,7 +25,7 @@
     <div class="content">
       <div class="tab">
         <ul>
-          <li v-for="(men, menIndex) in menuType" :key="menIndex" :class="{'active':menuTypeActive == menIndex}" @click="bindMenuType(menIndex)">
+          <li v-for="(men, menIndex) in menuData" :key="menIndex" :class="{'active':menuTypeActive == menIndex}" @click="bindMenuType(menIndex)">
             <div class="icon-wrap" v-if="menuTypeActive == menIndex && men.pieces">
               <i class="icon-round">{{men.pieces}}</i>
             </div>
@@ -36,23 +36,25 @@
         </ul>
       </div>
       <div class="tab-content">
-        <ul>
-          <li v-for="(menu, menuIndex) in menuList" :key="menuIndex">
+        <ul v-for="(md, mdIndex) in menuData" :key="mdIndex" v-show="menuTypeActive == mdIndex">
+          <li v-for="(ml, mlIndex) in md.menuList" :key="mlIndex">
             <div class="image-wrap">
-              <img :src="menu.image" alt="">
+              <img :src="ml.image" alt="">
             </div>
-            <div class="info" @click.stop="bindMenuList(menuIndex)">
+            <div class="info" @click.stop="bindMenuList(mdIndex,mlIndex)">
               <div class="name">
-                <span>{{menu.name}}</span>
+                <span>{{ml.name}}</span>
               </div>
               <div class="describe">
-                <span>{{menu.describe}}</span>
+                <span>{{ml.describe}}</span>
               </div>
             </div>
             <div class="price-wrap">
-              <span>￥</span><span class="price">{{menu.price}}</span>
+              <span>￥</span><span class="price">{{ml.price}}</span>
             </div>
-            <input-num :pieces="menu.pieces" @bindInputNum="bindInputNum(menuIndex)"></input-num>
+            <div v-if="ml.pieces">
+              <input-num :pieces="ml.pieces" @bindInputNum="bindInputNum(mdIndex,mlIndex)"></input-num>
+            </div>
           </li>
         </ul>
       </div>
@@ -172,73 +174,283 @@ export default {
           pieces:''
         }
       ],
-      menuList:[
-        {
-          id:1,
-          image:'http://cdn.awbchina.com/wximage/timg.png',
-          name:'火锅牛排',
-          describe:'兔兔、老姜、麻辣，上层原材料制作，挑战你的味蕾',
-          price:'78',
-          pieces:2
-        },
-        {
-          id:2,
-          image:'http://cdn.awbchina.com/wximage/timg.png',
-          name:'冰冻鳕鱼',
-          describe:'兔兔、老姜、麻辣，上层原材料制作，挑战你的味蕾',
-          price:'46',
-          pieces:0
-        },
-        {
-          id:2,
-          image:'http://cdn.awbchina.com/wximage/timg.png',
-          name:'冰冻鳕鱼',
-          describe:'兔兔、老姜、麻辣，上层原材料制作，挑战你的味蕾',
-          price:'46',
-          pieces:1
-        },
-        {
-          id:2,
-          image:'http://cdn.awbchina.com/wximage/timg.png',
-          name:'冰冻鳕鱼',
-          describe:'兔兔、老姜、麻辣，上层原材料制作，挑战你的味蕾',
-          price:'46',
-          pieces:''
-        },
-        {
-          id:2,
-          image:'http://cdn.awbchina.com/wximage/timg.png',
-          name:'冰冻鳕鱼',
-          describe:'兔兔、老姜、麻辣，上层原材料制作，挑战你的味蕾',
-          price:'46',
-          pieces:''
-        }
-      ],
-      menuType:[
+      // menuList:[
+      //   {
+      //     id:1,
+      //     image:'http://cdn.awbchina.com/wximage/timg.png',
+      //     name:'火锅牛排',
+      //     describe:'兔兔、老姜、麻辣，上层原材料制作，挑战你的味蕾',
+      //     price:'78',
+      //     pieces:2
+      //   },
+      //   {
+      //     id:2,
+      //     image:'http://cdn.awbchina.com/wximage/timg.png',
+      //     name:'冰冻鳕鱼',
+      //     describe:'兔兔、老姜、麻辣，上层原材料制作，挑战你的味蕾',
+      //     price:'46',
+      //     pieces:0
+      //   },
+      //   {
+      //     id:2,
+      //     image:'http://cdn.awbchina.com/wximage/timg.png',
+      //     name:'冰冻鳕鱼',
+      //     describe:'兔兔、老姜、麻辣，上层原材料制作，挑战你的味蕾',
+      //     price:'46',
+      //     pieces:1
+      //   },
+      //   {
+      //     id:2,
+      //     image:'http://cdn.awbchina.com/wximage/timg.png',
+      //     name:'冰冻鳕鱼',
+      //     describe:'兔兔、老姜、麻辣，上层原材料制作，挑战你的味蕾',
+      //     price:'46',
+      //     pieces:''
+      //   },
+      //   {
+      //     id:2,
+      //     image:'http://cdn.awbchina.com/wximage/timg.png',
+      //     name:'冰冻鳕鱼',
+      //     describe:'兔兔、老姜、麻辣，上层原材料制作，挑战你的味蕾',
+      //     price:'46',
+      //     pieces:''
+      //   }
+      // ],
+      menuData:[
         {
           id:1,
           name:'特色菜',
-          pieces:2
+          pieces:'',
+          menuList:[
+            {
+              id:1,
+              image:'http://cdn.awbchina.com/wximage/timg.png',
+              name:'火锅牛排',
+              describe:'兔兔、老姜、麻辣，上层原材料制作，挑战你的味蕾',
+              price:'78',
+              pieces:''
+            },
+            {
+              id:2,
+              image:'http://cdn.awbchina.com/wximage/timg.png',
+              name:'冰冻鳕鱼',
+              describe:'兔兔、老姜、麻辣，上层原材料制作，挑战你的味蕾',
+              price:'46',
+              pieces:''
+            },
+            {
+              id:2,
+              image:'http://cdn.awbchina.com/wximage/timg.png',
+              name:'冰冻鳕鱼',
+              describe:'兔兔、老姜、麻辣，上层原材料制作，挑战你的味蕾',
+              price:'46',
+              pieces:''
+            },
+            {
+              id:2,
+              image:'http://cdn.awbchina.com/wximage/timg.png',
+              name:'冰冻鳕鱼',
+              describe:'兔兔、老姜、麻辣，上层原材料制作，挑战你的味蕾',
+              price:'46',
+              pieces:''
+            },
+            {
+              id:2,
+              image:'http://cdn.awbchina.com/wximage/timg.png',
+              name:'冰冻鳕鱼',
+              describe:'兔兔、老姜、麻辣，上层原材料制作，挑战你的味蕾',
+              price:'46',
+              pieces:''
+            }
+          ]
         },
         {
           id:2,
           name:'必点',
-          pieces:''
+          pieces:'',
+          menuList:[
+            {
+              id:1,
+              image:'http://cdn.awbchina.com/wximage/timg.png',
+              name:'火锅牛排222',
+              describe:'兔兔、老姜、麻辣，上层原材料制作，挑战你的味蕾',
+              price:'78',
+              pieces:''
+            },
+            {
+              id:2,
+              image:'http://cdn.awbchina.com/wximage/timg.png',
+              name:'冰冻鳕鱼',
+              describe:'兔兔、老姜、麻辣，上层原材料制作，挑战你的味蕾',
+              price:'46',
+              pieces:''
+            },
+            {
+              id:2,
+              image:'http://cdn.awbchina.com/wximage/timg.png',
+              name:'冰冻鳕鱼',
+              describe:'兔兔、老姜、麻辣，上层原材料制作，挑战你的味蕾',
+              price:'46',
+              pieces:''
+            },
+            {
+              id:2,
+              image:'http://cdn.awbchina.com/wximage/timg.png',
+              name:'冰冻鳕鱼',
+              describe:'兔兔、老姜、麻辣，上层原材料制作，挑战你的味蕾',
+              price:'46',
+              pieces:''
+            },
+            {
+              id:2,
+              image:'http://cdn.awbchina.com/wximage/timg.png',
+              name:'冰冻鳕鱼',
+              describe:'兔兔、老姜、麻辣，上层原材料制作，挑战你的味蕾',
+              price:'46',
+              pieces:''
+            }
+          ]
         },
         {
           id:3,
           name:'时蔬',
-          pieces:''
+          pieces:'',
+          menuList:[
+            {
+              id:1,
+              image:'http://cdn.awbchina.com/wximage/timg.png',
+              name:'火锅牛排333',
+              describe:'兔兔、老姜、麻辣，上层原材料制作，挑战你的味蕾',
+              price:'78',
+              pieces:''
+            },
+            {
+              id:2,
+              image:'http://cdn.awbchina.com/wximage/timg.png',
+              name:'冰冻鳕鱼',
+              describe:'兔兔、老姜、麻辣，上层原材料制作，挑战你的味蕾',
+              price:'46',
+              pieces:''
+            },
+            {
+              id:2,
+              image:'http://cdn.awbchina.com/wximage/timg.png',
+              name:'冰冻鳕鱼',
+              describe:'兔兔、老姜、麻辣，上层原材料制作，挑战你的味蕾',
+              price:'46',
+              pieces:''
+            },
+            {
+              id:2,
+              image:'http://cdn.awbchina.com/wximage/timg.png',
+              name:'冰冻鳕鱼',
+              describe:'兔兔、老姜、麻辣，上层原材料制作，挑战你的味蕾',
+              price:'46',
+              pieces:''
+            },
+            {
+              id:2,
+              image:'http://cdn.awbchina.com/wximage/timg.png',
+              name:'冰冻鳕鱼',
+              describe:'兔兔、老姜、麻辣，上层原材料制作，挑战你的味蕾',
+              price:'46',
+              pieces:''
+            }
+          ]
         },
         {
           id:4,
           name:'酒水',
-          pieces:''
+          pieces:'',
+          menuList:[
+            {
+              id:1,
+              image:'http://cdn.awbchina.com/wximage/timg.png',
+              name:'火锅牛排44',
+              describe:'兔兔、老姜、麻辣，上层原材料制作，挑战你的味蕾',
+              price:'78',
+              pieces:''
+            },
+            {
+              id:2,
+              image:'http://cdn.awbchina.com/wximage/timg.png',
+              name:'冰冻鳕鱼',
+              describe:'兔兔、老姜、麻辣，上层原材料制作，挑战你的味蕾',
+              price:'46',
+              pieces:''
+            },
+            {
+              id:2,
+              image:'http://cdn.awbchina.com/wximage/timg.png',
+              name:'冰冻鳕鱼',
+              describe:'兔兔、老姜、麻辣，上层原材料制作，挑战你的味蕾',
+              price:'46',
+              pieces:''
+            },
+            {
+              id:2,
+              image:'http://cdn.awbchina.com/wximage/timg.png',
+              name:'冰冻鳕鱼',
+              describe:'兔兔、老姜、麻辣，上层原材料制作，挑战你的味蕾',
+              price:'46',
+              pieces:''
+            },
+            {
+              id:2,
+              image:'http://cdn.awbchina.com/wximage/timg.png',
+              name:'冰冻鳕鱼',
+              describe:'兔兔、老姜、麻辣，上层原材料制作，挑战你的味蕾',
+              price:'46',
+              pieces:''
+            }
+          ]
         },
         {
           id:5,
           name:'小吃',
-          pieces:''
+          pieces:'',
+          menuList:[
+            {
+              id:1,
+              image:'http://cdn.awbchina.com/wximage/timg.png',
+              name:'火锅牛排',
+              describe:'兔兔、老姜、麻辣，上层原材料制作，挑战你的味蕾',
+              price:'78',
+              pieces:''
+            },
+            {
+              id:2,
+              image:'http://cdn.awbchina.com/wximage/timg.png',
+              name:'冰冻鳕鱼',
+              describe:'兔兔、老姜、麻辣，上层原材料制作，挑战你的味蕾',
+              price:'46',
+              pieces:''
+            },
+            {
+              id:2,
+              image:'http://cdn.awbchina.com/wximage/timg.png',
+              name:'冰冻鳕鱼',
+              describe:'兔兔、老姜、麻辣，上层原材料制作，挑战你的味蕾',
+              price:'46',
+              pieces:''
+            },
+            {
+              id:2,
+              image:'http://cdn.awbchina.com/wximage/timg.png',
+              name:'冰冻鳕鱼',
+              describe:'兔兔、老姜、麻辣，上层原材料制作，挑战你的味蕾',
+              price:'46',
+              pieces:''
+            },
+            {
+              id:2,
+              image:'http://cdn.awbchina.com/wximage/timg.png',
+              name:'冰冻鳕鱼',
+              describe:'兔兔、老姜、麻辣，上层原材料制作，挑战你的味蕾',
+              price:'46',
+              pieces:''
+            }
+          ]
         }
       ],
       orderingInfo:{
@@ -263,22 +475,31 @@ export default {
     bindMenuType(index){
       this.menuTypeActive = index;
     },
-    orderingInfoHidden(){
-      this.orderingInfoShow = 0;
-    },
-    bindMenuList(index){
-      this.menuList[index].pieces ++ ;
-      this.orderingInfoShow = 1;
-      setTimeout(this.orderingInfoHidden,3000); 
-    },
-    bindInputNum(index){
-      if (this.menuList[index].pieces > 0) {
-        this.menuList[index].pieces -- ;
-      }else{
-        this.menuList[index].pieces ++ ;
+    orderingInfoPop(){
+      let _this = this
+      _this.orderingInfoShow = 1;
+      let orderingInfoHidden = function (argument) {
+        _this.orderingInfoShow = 0;
       }
-      this.orderingInfoShow = 1;
-      setTimeout(this.orderingInfoHidden,3000); 
+      setTimeout(orderingInfoHidden,3000); 
+    },
+    bindMenuList(mdIndex,mlIndex){
+      if (!this.menuData[mdIndex].menuList[mlIndex].pieces) {
+        this.menuData[mdIndex].pieces ++
+      }
+      this.menuData[mdIndex].menuList[mlIndex].pieces ++ ;
+      this.orderingInfoPop()
+    },
+    bindInputNum(mdIndex,mlIndex){
+      if (this.menuData[mdIndex].menuList[mlIndex].pieces > 0) {
+        this.menuData[mdIndex].menuList[mlIndex].pieces -- ;
+        if (!this.menuData[mdIndex].menuList[mlIndex].pieces) {
+          this.menuData[mdIndex].pieces --
+        }
+      }else{
+        this.menuData[mdIndex].menuList[mlIndex].pieces ++ ;
+      }
+      this.orderingInfoPop()
     }
   },
 
