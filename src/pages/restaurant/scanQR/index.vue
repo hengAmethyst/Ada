@@ -37,23 +37,23 @@ export default {
     },
     methods:{
         takePhoto() {
-		const ctx = wx.createCameraContext()
-		ctx.takePhoto({
-			quality: 'high',
-			success: (res) => {
-				this.src = res.tempImagePath
-                console.log(res)
-                wx.getFileSystemManager().readFile({
-                    filePath: res.tempImagePath, //选择图片返回的相对路径
-                    encoding: 'base64', //编码格式
-                    success: res => { //成功的回调
-                    console.log(res.data)
-                        this.postImg(res.data)
-                    }
-                })
-			}
-		})
-	},
+    		const ctx = wx.createCameraContext()
+    		ctx.takePhoto({
+    			quality: 'high',
+    			success: (res) => {
+    				this.src = res.tempImagePath
+                    console.log(res)
+                    wx.getFileSystemManager().readFile({
+                        filePath: res.tempImagePath, //选择图片返回的相对路径
+                        encoding: 'base64', //编码格式
+                        success: res => { //成功的回调
+                        console.log(res.data)
+                            this.postImg(res.data)
+                        }
+                    })
+    			}
+    		})
+    	},
         getToken(){
             let obj = {
                 url: 'https://aip.baidubce.com/oauth/2.0/token',
@@ -95,7 +95,7 @@ export default {
             toBase64(this)
         }
     },
-    created(){
+    mounted(){
         this.getToken()
     }
 }

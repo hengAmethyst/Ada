@@ -40,7 +40,10 @@ export const get = (params) => {
 export const post = (params) => {
     return fly.post(`${params.url}`, qs.stringify(params.data))
 };
+
+
+
 // 封装的登录请求，根据后台接收方式选择是否加qs.stringify
-export const login = params => {
-    return fly.post('/login', params)
+export const cInfo = params => {
+    return fly.post('v1/company/get', params)
 };

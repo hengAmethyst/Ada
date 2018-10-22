@@ -10,7 +10,7 @@ import config from './config'
 // //定义公共headers
 // fly.config.headers={xx:5,bb:6,dd:7}
 // //设置超时
-fly.config.timeout = 20000;
+fly.config.timeout = config.timeout;
 // //设置请求基地址
 fly.config.baseURL = config.host
 

@@ -30,33 +30,47 @@
 </template>
 
 <script>
+  import {mapState, mapMutations} from 'vuex'
+  import { cInfo } from '@/http/api.js'
+  export default {
+    data () {
+      return {
+        weatherInfo:{
+          centigrade:'27',
+          centigradeimage:'http://cdn.awbchina.com/wximage/timg.png',
+          welcoming:'天气好啦，喝个咖啡吧'
+        },
+      }
+    },
 
-export default {
-  data () {
-    return {
-      weatherInfo:{
-        centigrade:'27',
-        centigradeimage:'http://cdn.awbchina.com/wximage/timg.png',
-        welcoming:'天气好啦，喝个咖啡吧'
+    components: {
+    },
+    computed:{
+      ...mapState([
+        'openId'
+      ]),
+    },
+    methods: {
+      bindToList(){
+        wx.navigateTo({
+          url: '/pages/restaurant/list/main'
+        })
       },
+      fetchCInfo(){
+        let params = {id:35}
+        cInfo(params).then(res=>{ 
+          console.log(res); 
+        })
+      }
+    },
+
+    created () {
+      // 调用应用实例的方法获取全局数据
+    },
+    mounted(){
+      this.fetchCInfo()
     }
-  },
-
-  components: {
-  },
-
-  methods: {
-    bindToList(){
-      wx.navigateTo({
-        url: '/pages/restaurant/list/main'
-      })
-    }
-  },
-
-  created () {
-    // 调用应用实例的方法获取全局数据
   }
-}
 </script>
 
 <style lang="scss" scoped>

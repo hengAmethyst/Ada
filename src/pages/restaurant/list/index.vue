@@ -22,7 +22,7 @@
       <div class="search" @click="bindToSearch"></div>
       <div class="avatar">
         <div class="image-wrap">
-          <img src="" alt="">
+          <img src="http://cdn.awbchina.com/wximage/default.png" alt="">
         </div>
       </div>
     </div>
@@ -66,87 +66,87 @@
 </template>
 
 <script>
-import invitation from '@/components/restaurant/invitation';
-import welcome from '@/components/restaurant/welcome';
-import screen from '@/components/restaurant/screen';
-export default {
-  data () {
-    return {
-      userinfo: {
-        name: 'Trista'
+  import invitation from '@/components/restaurant/invitation';
+  import welcome from '@/components/restaurant/welcome';
+  import screen from '@/components/restaurant/screen';
+  export default {
+    data () {
+      return {
+        userinfo: {
+          name: 'Trista'
+        },
+        restaurantList: [
+          {
+            id: 1,
+            image: 'http://cdn.awbchina.com/wximage/default.png',
+            name: 'A aboluo 阿波罗',
+            price: '98',
+            adress: '光明路',
+            type: '火锅',
+            state: 1,
+            range: '100m'
+          },
+          {
+            id: 2,
+            image: 'http://cdn.awbchina.com/wximage/default.png',
+            name: '阿波罗阿波罗阿波罗阿波罗',
+            price: '98',
+            adress: '光明路',
+            type: '火锅',
+            state: 0,
+            range: '100m'
+          },
+          {
+            id: 3,
+            image: 'http://cdn.awbchina.com/wximage/default.png',
+            name: 'A aboluo 阿波罗',
+            price: '98',
+            adress: '光明路',
+            type: '火锅',
+            state: 1,
+            range: '100m'
+          }
+        ],
+        invitationShow:0,
+        welcomeShow:0,
+        infoShow:1
+      }
+    },
+
+    components: {
+      invitation,
+      welcome,
+      screen  
+    },
+    onPageScroll:function(e){
+      if (e.scrollTop >= 120) {
+        this.infoShow = 0
+      }else{
+        this.infoShow = 1
+      }
+    },
+    methods: {
+      bindToDetails(){
+        wx.navigateTo({
+          url: '/pages/restaurant/details/main'
+        })
       },
-      restaurantList: [
-        {
-          id: 1,
-          image: 'http://cdn.awbchina.com/wximage/default.png',
-          name: 'A aboluo 阿波罗',
-          price: '98',
-          adress: '光明路',
-          type: '火锅',
-          state: 1,
-          range: '100m'
-        },
-        {
-          id: 2,
-          image: 'http://cdn.awbchina.com/wximage/default.png',
-          name: '阿波罗阿波罗阿波罗阿波罗',
-          price: '98',
-          adress: '光明路',
-          type: '火锅',
-          state: 0,
-          range: '100m'
-        },
-        {
-          id: 3,
-          image: 'http://cdn.awbchina.com/wximage/default.png',
-          name: 'A aboluo 阿波罗',
-          price: '98',
-          adress: '光明路',
-          type: '火锅',
-          state: 1,
-          range: '100m'
-        }
-      ],
-      invitationShow:0,
-      welcomeShow:0,
-      infoShow:1
-    }
-  },
-
-  components: {
-    invitation,
-    welcome,
-    screen  
-  },
-  onPageScroll:function(e){
-    if (e.scrollTop >= 120) {
-      this.infoShow = 0
-    }else{
-      this.infoShow = 1
-    }
-  },
-  methods: {
-    bindToDetails(){
-      wx.navigateTo({
-        url: '/pages/restaurant/details/main'
-      })
+      bindToSearch(){
+        wx.navigateTo({
+          url: '/pages/restaurant/search/main'
+        })
+      },
+      bindToUserOrder(){
+         wx.navigateTo({
+          url: '/pages/user/userOrder/main'
+        })
+      }
     },
-    bindToSearch(){
-      wx.navigateTo({
-        url: '/pages/restaurant/search/main'
-      })
-    },
-    bindToUserOrder(){
-       wx.navigateTo({
-        url: '/pages/user/userOrder/main'
-      })
-    }
-  },
 
-  created () {
-    // 调用应用实例的方法获取全局数据
+    created () {
+      // 调用应用实例的方法获取全局数据
+    }
   }
-}
 </script>
 
 <style lang="scss" scoped>
@@ -216,6 +216,15 @@ export default {
         background-color:$theme-highlight;
         right:15px;
         top:20px;
+        overflow:hidden;
+        .image-wrap{
+          width:100%;
+          height:100%;
+          img{
+            width:100%;
+            height:100%;
+          }
+        }
       }
     }
     .head-fixed{
