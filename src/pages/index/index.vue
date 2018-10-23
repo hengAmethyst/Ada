@@ -61,10 +61,27 @@
         cInfo(params).then(res=>{ 
           console.log(res); 
         })
+      },
+      http(){
+        wx.request({
+          url: 'http://api.codkui.com/?service=Rest.Rest._list', //仅为示例，并非真实的接口地址
+          data: {
+            lat: '30.540627818102287',
+            lng: '104.10323330800178',
+            page: 1
+          },
+          header: {
+            'content-type': 'application/json' // 默认值
+          },
+          success (res) {
+            console.log(res.data)
+          }
+        })
       }
     },
 
     created () {
+      this.http()
       // 调用应用实例的方法获取全局数据
     },
     mounted(){
