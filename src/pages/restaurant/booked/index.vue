@@ -30,8 +30,8 @@
   					<span>{{bookedInfo.name}}</span>
   				</div>
   				<div class="icon-wrap">
-  					<i></i>
-  				</div>
+            <i></i>
+          </div>
   			</div>
   			<div class="info">
   				<div>
@@ -39,8 +39,12 @@
   					<span>{{bookedInfo.week}}</span>
   					<span>{{bookedInfo.time}}</span>
   				</div>
-  				<div>
+  				<div class="adress">
   					<span>{{bookedInfo.adress}}</span>
+            <div class="icon-wrap">
+              <i class="icon-triangle"></i>
+              <i class="icon-triangle-shadow"></i>
+            </div>
   				</div>
   				<div>
   					<span>{{bookedInfo.numberPeople}}<span>人</span></span>
@@ -50,39 +54,27 @@
   		</div>
   	</div>
   	<div class="nav">
-  		<ul v-if="bookedWait">
-  			<li class="tool">
-  				<div>
-  					<div class="icon-wrap"><i></i></div>
-  					<div>取消</div>
-  				</div>
-  				<div>
-  					<div class="icon-wrap"><i></i></div>
-  					<div>分享</div>
-  				</div>
-  			</li>
-  			<li class="ordering-wrap">
-  				<div class="ordering" @click="pay">
-  					支付
-  				</div>
-  			</li>
-  		</ul>
-      <ul v-if="bookedSuccess">
+      <ul>
         <li class="tool">
           <div>
-            <div class="icon-wrap"><i></i></div>
+            <div class="icon-wrap icon-cancel"><i></i></div>
             <div>取消</div>
           </div>
-          <div>
-            <div class="icon-wrap"><i></i></div>
+          <div  v-if="bookedSuccess">
+            <div class="icon-wrap icon-feedback"><i></i></div>
             <div>留言</div>
           </div>
           <div>
-            <div class="icon-wrap"><i></i></div>
+            <div class="icon-wrap  icon-share"><i></i></div>
             <div>分享</div>
           </div>
         </li>
-        <li class="ordering-wrap"  @click="bindToMenu">
+        <li class="ordering-wrap" v-if="bookedWait">
+          <div class="ordering" @click="pay">
+            支付
+          </div>
+        </li>
+        <li class="ordering-wrap" v-if="bookedSuccess">
           <div class="ordering" @click="bindToMenu">
             点餐
           </div>
@@ -143,6 +135,8 @@ export default {
 <style lang="scss" scoped>
   @import "@/sass/common.scss";
   .wrap{
+    height:100%;
+    background:rgba(242,244,248,1);
   	.head{
   		background-color: $theme-color;
   		color: #fff;
@@ -158,10 +152,10 @@ export default {
   		.text{
   			padding-right:40px;
   			font-size:15px;
-			font-family:PingFangSC-Regular;
-			font-weight:400;
-			color:rgba(253,253,253,1);
-			line-height:24px;
+  			font-family:PingFangSC-Regular;
+  			font-weight:400;
+  			color:rgba(253,253,253,1);
+  			line-height:24px;
   		}
   	}
   	.content{
@@ -192,14 +186,15 @@ export default {
 				padding: 20px 20px 10px 20px;
 				border-bottom: 1px solid rgba(233,233,233,1);
 				position: relative;
+        display:flex;
+        justify-content:space-between;
+        align-items:center;
 				.icon-wrap{
-					width:24px;
-					height: 24px;
-					position: absolute;
-					right: 20px;
-					background-color: $theme-highlight;
-					top:20px;
-				}
+          width:24px;
+          height:24px;
+          background-image:url($image-url + 'images/restaurant/booked/ShapeCopy@2x.png');
+          background-size:cover;
+        }
 			}
 			.info{
 				padding: 20px;
@@ -213,6 +208,48 @@ export default {
 						padding-right: 10px;
 					}
 				}
+        .adress{
+          display:flex;
+          justify-content:space-between;
+          align-items:center;
+          span{
+            flex:1;
+          }
+          .icon-wrap{
+              width:20px;
+              height:10px;
+              position:relative;
+            .icon-triangle{
+              position: absolute;
+              top:0;
+              left:0;
+              width:0;
+              height:0;
+              z-index:2;
+              overflow:hidden;
+              font-size: 0;     /*是因为, 虽然宽高度为0, 但在IE6下会具有默认的 */
+              line-height: 0;  /* 字体大小和行高, 导致盒子呈现被撑开的长矩形 */
+              border-width: 7px 0 7px  10px ;
+              border-style:solid;  /*ie6下会出现不透明的兼容问题*/
+              border-color:transparent transparent transparent $theme-color;
+            }
+            .icon-triangle-shadow{
+              position: absolute;
+              top:2px;
+              left:2px;
+              width:0;
+              z-index:1;
+              height:0;
+              overflow:hidden;
+              font-size: 0;     /*是因为, 虽然宽高度为0, 但在IE6下会具有默认的 */
+              line-height: 0;  /* 字体大小和行高, 导致盒子呈现被撑开的长矩形 */
+              border-width:7px 0 7px  10px ;
+              border-style:solid;  /*ie6下会出现不透明的兼容问题*/
+              border-color:transparent transparent transparent rgba(233,233,233,1);
+            }
+          }
+        }
+        
 			}
   		}
   	}
@@ -243,15 +280,26 @@ export default {
   				align-items: center;
   				&>div{
   					text-align: center;
-					font-size:14px;
-					font-family:PingFangSC-Regular;
-					font-weight:400;
-					color:rgba(153,153,153,1);
+  					font-size:14px;
+  					font-family:PingFangSC-Regular;
+  					font-weight:400;
+  					color:rgba(153,153,153,1);
   					.icon-wrap{
-  						width: 34px ;
-  						height: 34px ;
-  						background-color: $theme-color;
+  						width: 30px ;
+  						height: 25px ;
+              box-shadow:0px 8px 17px 0px rgba(0,0,0,0.16);
+              background-size:cover;
+              margin-bottom:5px;
   					}
+            .icon-cancel{
+              background-image:url($image-url + 'images/restaurant/booked/icon_btn_cancel_order@2x.png');
+            }
+            .icon-feedback{
+              background-image:url($image-url + 'images/restaurant/booked/icon_btn_message@2x.png');
+            }
+            .icon-share{
+              background-image:url($image-url + 'images/restaurant/booked/icon_btn_share@2x.png');
+            }
   				}
   			}
   			li.ordering-wrap{

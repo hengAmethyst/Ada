@@ -2,7 +2,9 @@
   <div class="wrap">
     <div class="search">
       <div class="left">
-        <i class="icon" @tap="bindSearch"></i>
+        <div class="icon-wrap" @tap="bindSearch">
+          <i></i>
+        </div>
         <input type="text" @input="bindInput" placeholder="请输入餐厅信息" v-model="searchValue">
       </div>
       <div class="right">
@@ -191,10 +193,11 @@ export default {
           font-family:SFNSDisplay;
           color:rgba(153,153,153,1);
         }
-        .icon{
-          width:32px;
-          height:32px;
-          background-color:$theme-gray;
+        .icon-wrap{
+          width:16px;
+          height:16px;
+          background-size:cover;
+          background-image:url($image-url + 'images/restaurant/search/searchicn@2x.png');
         }
       }
       .right{

@@ -1,11 +1,11 @@
 <template>
   <div class="call">
     <div class="head">
-      <div class="image-wrap">
-        <img src="" alt="">
+     <div class="icon-wrap icon-avatar">
+        <i></i>
       </div>
-      <div class="image-wrap">
-        <img src="" alt="">
+      <div class="icon-wrap icon-name">
+        <i></i>
       </div>
     </div>
     <div class="content">
@@ -17,27 +17,37 @@
           <span>轻拍一下Ada，呼叫服务员</span>
         </li>
         <li class="service3">
-          <span>您也可以</span><span class="click-me">点我</span><span>直接呼叫服务员</span>
+          <span>
+            <span>您也可以</span><span class="click-me"><span>点我</span></span><span>直接呼叫服务员</span>
+          </span>
         </li>
       </ul>
     </div>
-    <div class="vioce">
-      <div class="image-wrap">
-        <img src="" alt="">
+    <div class="icon-voice-wrap">
+      <div class="icon-voice-shadow">
+        <div class="icon-voice-shadow-poor">
+          <div class="voice">
+            <div class="icon-wrap">
+              <i></i>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
+    
+    
     <div class="tip">
-      <div class="image-wrap">
-        <img src="" alt="">
+      <div class="icon-wrap">
+        <i></i>
       </div>
     </div>
-    <div class="vioce-tip" v-show="vioceTipShow">
+    <div class="voice-pop" v-show="voicePopShow">
       <div class="con">
         <div class="title">
           您可能需要：
         </div>
         <ul>
-          <li v-for="(v,vIndex) in vioceTip"  :key="vIndex">{{v}}</li>
+          <li v-for="(v,vIndex) in voicePop"  :key="vIndex">{{v}}</li>
         </ul>
       </div>
     </div>
@@ -49,8 +59,8 @@
 export default {
   data () {
     return {
-      vioceTip:['我需要增加一副碗筷','我需要一包纸巾','我需要加水','我需要加辣椒'],
-      vioceTipShow:0
+      voicePop:['我需要增加一副碗筷','我需要一包纸巾','我需要加水','我需要加辣椒'],
+      voicePopShow:0
     }
   },
 
@@ -74,14 +84,22 @@ export default {
     background-color: $theme-color;
     box-sizing: border-box;
     padding:20px;
+    position:relative;
+    overflow-y: hidden;
     .head{
       display: flex;
       margin-bottom: 40px;
-      .image-wrap{
+      .icon-wrap{
         width:50px;
         height:50px;
-        background-color: #fff;
         margin-right: 10px;
+        background-size:cover;
+      }
+      .icon-avatar{
+        background-image:url($image-url + 'images/restaurant/details/avatar@2x.png');
+      }
+      .icon-name{
+        background-color: #fff;
       }
     }
     .content{
@@ -104,35 +122,75 @@ export default {
           color:rgba(1,1,1,1);
         }
         li.service3{
-          text-decoration:underline ;
+          &>span{
+            border-bottom:1px solid #fff;
+          }
+          border-bottom:1px solid #fff;
           .click-me{
             background: $theme-highlight;
-            padding:10px;
+            padding:10px 0;
             text-align:center;
+            span{
+              padding:0 10px;
+              border-bottom:1px solid #fff;
+            }
           }
         }
       }
     }
-    .vioce{
-      background-color:$theme-highlight;
-      position: fixed;
-      bottom:40px;
-      width: 72px;
-      height: 72px;
-      border-radius:50%;
-      left: 50%;
-      margin-left: -36px;
+    
+    .icon-voice-wrap{
+      width:100%;
+      display:flex;
+      justify-content:center;
+      position: absolute;
+      bottom: -72px;
+      left:0;
+      .icon-voice-shadow{
+        border-radius:50%;
+        width:290px;
+        height:290px;
+        background:rgba(248,79,68,0.1);
+        box-shadow:0px 6px 20px 0px rgba(0,0,0,0.5);
+        display:flex;
+        justify-content:center;
+        align-items:center;
+        .icon-voice-shadow-poor{
+          border-radius:50%;
+          width:190px;
+          height:190px;
+          background:rgba(248,79,68,0.2);
+          box-shadow:0px 6px 20px 0px rgba(0,0,0,0.5);
+          display:flex;
+          justify-content:center;
+          align-items:center;
+          .voice{
+            .icon-wrap{
+              border-radius:50%;
+              width: 72px;
+              height: 72px;
+              background-size:cover;
+              background-image:url($image-url + 'images/restaurant/voice/technology@2x.png');
+            }
+          }
+        }
+      }
     }
+    
     .tip{
-      background:#fff;
       position: fixed;
-      left:30px;
+      left:20px;
       bottom: 20px;
-      width: 25px;
-      height: 25px;
-      border-radius:50%;
+      .icon-wrap{
+        border-radius:50%;
+        width: 25px;
+        height: 25px;
+        background:#fff;
+        background-size:cover;
+        background-image:url($image-url + 'images/restaurant/voice/question@2x.png');
+      }
     }
-    .vioce-tip{
+    .voice-pop{
       position:fixed;
       background:rgba(0,0,0,0.9);
       top:0;

@@ -9,7 +9,10 @@
         <div class="backg"></div>
         <div class="bill-wrap">
           <div class="seat">
-            {{bill.seat}}
+            <span>{{bill.seat}}</span>            
+            <div class="icon-wrap">
+              <i class="icon-triangle"></i>
+            </div> 
           </div>
           <div class="list">
             <div v-for="(bi, biIndex) in bill.list" :key="biIndex" class="info">
@@ -74,6 +77,21 @@ export default {
             name:'南瓜饼',
             pieces:1,
             price:'78'
+          },
+          {
+            name:'南瓜饼',
+            pieces:1,
+            price:'78'
+          },
+          {
+            name:'南瓜饼',
+            pieces:1,
+            price:'78'
+          },
+          {
+            name:'南瓜饼',
+            pieces:1,
+            price:'78'
           }
         ]
       }
@@ -96,7 +114,8 @@ export default {
 <style lang="scss" scoped>
   @import "@/sass/common.scss";
   .bill{
-    padding-bottom:60px;
+    height:100%;
+    overflow-y:hidden;
     .top{
       z-index:98;
       width:100%;
@@ -144,9 +163,32 @@ export default {
           color:rgba(225,11,34,1);
           text-align:center;
           border-bottom:2px solid rgba(242,242,242,1);
+          position: relative;
+          .icon-wrap{
+            position: absolute;
+            top:-15px;
+            left:50%;
+            margin-left:-20px;
+            .icon-triangle{
+              position: absolute;
+              top:0;
+              left:0;
+              width:0;
+              height:0;
+              z-index:2;
+              overflow:hidden;
+              font-size: 0;     /*是因为, 虽然宽高度为0, 但在IE6下会具有默认的 */
+              line-height: 0;  /* 字体大小和行高, 导致盒子呈现被撑开的长矩形 */
+              border-width:0 20px 15px 20px;
+              border-style:solid;  /*ie6下会出现不透明的兼容问题*/
+              border-color:transparent transparent rgba(256,256,256,1) transparent;
+            }
+          }
         }
         .list{
           padding:20px;
+          max-height:200px;
+          overflow-y: scroll;
           .info{
             display:flex;
             font-size:15px;

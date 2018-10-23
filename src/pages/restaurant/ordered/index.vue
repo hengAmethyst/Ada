@@ -268,6 +268,15 @@ export default {
         width:80px;
         height:100%;
         background:rgba(233,233,233,1);
+        display:flex;
+        justify-content:center;
+        align-items:center;
+        .icon-wrap{
+          width:30px;
+          height:30px;
+          background-size:cover;
+          background-image:url($image-url + 'images/restaurant/ordered/icon_btn_share@2x.png');
+        }
       }
       .right{
         width:130px;

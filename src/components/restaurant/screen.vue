@@ -5,7 +5,8 @@
   			<div class="t" v-for="(ta, taIndex) in tabs" :key="taIndex" @click="bindTab(ta.id,taIndex)">
   				<span>{{ta.name}}</span>
   				<div class="icon-wrap" :class="{'icon-wrap-active': curActive === taIndex }">
-  					<i></i>
+  					<i class="icon-triangle"></i>
+            <i class="icon-triangle-shadow"></i>
   				</div>  				
   			</div>
   		</div>
@@ -110,13 +111,68 @@ export default {
   			display:flex;
   			align-items:center;
   			.icon-wrap{
-  				width:20px;
-  				height:10px;
-  				background-color:#fff;
   				margin-left:15px;
+          width:20px;
+          height:10px;
+          position:relative;
+          .icon-triangle{
+            position: absolute;
+            top:0;
+            left:0;
+            width:0;
+            height:0;
+            z-index:2;
+            overflow:hidden;
+            font-size: 0;     /*是因为, 虽然宽高度为0, 但在IE6下会具有默认的 */
+            line-height: 0;  /* 字体大小和行高, 导致盒子呈现被撑开的长矩形 */
+            border-width:10px 7px 0 7px;
+            border-style:solid;  /*ie6下会出现不透明的兼容问题*/
+            border-color:rgba(222,218,217,1) transparent transparent transparent;
+          }
+          .icon-triangle-shadow{
+            position: absolute;
+            top:2px;
+            left:2px;
+            width:0;
+            z-index:1;
+            height:0;
+            overflow:hidden;
+            font-size: 0;     /*是因为, 虽然宽高度为0, 但在IE6下会具有默认的 */
+            line-height: 0;  /* 字体大小和行高, 导致盒子呈现被撑开的长矩形 */
+            border-width:10px 7px 0px 7px;
+            border-style:solid;  /*ie6下会出现不透明的兼容问题*/
+            border-color:rgba(117,108,103,1) transparent transparent transparent;
+          }
   			}
 			  .icon-wrap-active{
-          background-color:$theme-highlight;
+          .icon-triangle{
+            position: absolute;
+            top:0;
+            left:0;
+            width:0;
+            height:0;
+            z-index:2;
+            overflow:hidden;
+            font-size: 0;     /*是因为, 虽然宽高度为0, 但在IE6下会具有默认的 */
+            line-height: 0;  /* 字体大小和行高, 导致盒子呈现被撑开的长矩形 */
+            border-width:0 7px 10px 7px;
+            border-style:solid;  /*ie6下会出现不透明的兼容问题*/
+            border-color: transparent transparent rgba(222,218,217,1) transparent;
+          }
+          .icon-triangle-shadow{
+            position: absolute;
+            top:2px;
+            left:2px;
+            width:0;
+            z-index:1;
+            height:0;
+            overflow:hidden;
+            font-size: 0;     /*是因为, 虽然宽高度为0, 但在IE6下会具有默认的 */
+            line-height: 0;  /* 字体大小和行高, 导致盒子呈现被撑开的长矩形 */
+            border-width:0 7px 10px 7px;
+            border-style:solid;  /*ie6下会出现不透明的兼容问题*/
+            border-color: transparent transparent rgba(117,108,103,1) transparent;
+          }
         }
   		}
   	}

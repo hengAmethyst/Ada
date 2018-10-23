@@ -22,7 +22,7 @@
       <div class="search" @click="bindToSearch"></div>
       <div class="avatar">
         <div class="image-wrap">
-          <img src="http://cdn.awbchina.com/wximage/default.png" alt="">
+          <img src="http://insurance.awbchina.com/ada/images/restaurant/details/avatar@2x.png" alt="">
         </div>
       </div>
     </div>
@@ -188,9 +188,8 @@
         .icon-wrap{
           width:20px;
           height:20px;
-          opacity:0.5;
-          border:2px solid rgba(255,255,255,1);
-
+          background-image:url($image-url + 'images/restaurant/details/Rectangle10@2x.png');
+          background-size:cover;
         }
         span{
           margin-left:8px;
@@ -206,6 +205,8 @@
         height: 40px;
         border-radius:50%;
         background-color: rgba(225, 11, 34, 1);
+        background-size:cover;
+        background-image:url($image-url + 'images/restaurant/details/Group4@2x.png');
         box-shadow: 0px 16px 34px 0px rgba(0, 0, 0, 0.16);
       }
       .avatar{
@@ -213,7 +214,6 @@
         width:40px;
         height:40px;
         border-radius:50%;
-        background-color:$theme-highlight;
         right:15px;
         top:20px;
         overflow:hidden;

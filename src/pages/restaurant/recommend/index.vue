@@ -1,11 +1,11 @@
 <template>
   <div class="recommend">
   	<div class="head">
-      <div class="image-wrap">
-        <img src="" alt="">
+      <div class="icon-wrap icon-avatar">
+        <i></i>
       </div>
-      <div class="image-wrap">
-        <img src="" alt="">
+      <div class="icon-wrap icon-name">
+        <i></i>
       </div>
     </div>
     <div class="content">
@@ -105,27 +105,33 @@ export default {
     .head{
       display: flex;
       margin-bottom: 40px;
-      .image-wrap{
+      .icon-wrap{
         width:50px;
         height:50px;
-        background-color: #fff;
         margin-right: 10px;
+        background-size:cover;
+      }
+      .icon-avatar{
+        background-image:url($image-url + 'images/restaurant/invitation/Page1@2x.png');
+      }
+      .icon-name{
+        background-color: #fff;
       }
     }
     .title{
-      	width:100%;
-		height:60px;
-		line-height:60px;
-		background:rgba(26,26,26,1);
-		color:rgba(255,255,255,1);
-		box-sizing:border-box;
-		font-size:15px;
-		text-align:center;
-		font-family:PingFangSC-Medium;
-		font-weight:500;
-		border-radius:0px 10px 10px 10px;
-		box-shadow:0px 8px 19px 0px rgba(129,140,166,0.15);
-      	margin-bottom:20px;
+  	 width:100%;
+  		height:60px;
+  		line-height:60px;
+  		background:rgba(26,26,26,1);
+  		color:rgba(255,255,255,1);
+  		box-sizing:border-box;
+  		font-size:15px;
+  		text-align:center;
+  		font-family:PingFangSC-Medium;
+  		font-weight:500;
+  		border-radius:0px 10px 10px 10px;
+  		box-shadow:0px 8px 19px 0px rgba(129,140,166,0.15);
+  	   margin-bottom:20px;
   	}
     .recommend-warp{
       display:flex;
@@ -209,15 +215,15 @@ export default {
         align-items:center;
         justify-content:center;
      	.btn{
-     		text-align:center;
+     		  text-align:center;
 	      	width:150px;
 	      	font-size:17px;
-			font-family:PingFangSC-Medium;
-			font-weight:500;
-			color:rgba(255,255,255,1);
-			height:45px;
-			line-height:45px;
-			background:rgba(225,11,34,1);
+    			font-family:PingFangSC-Medium;
+    			font-weight:500;
+    			color:rgba(255,255,255,1);
+    			height:45px;
+    			line-height:45px;
+    			background:rgba(225,11,34,1);
       	}
       }
       .left{

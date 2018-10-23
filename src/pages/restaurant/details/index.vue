@@ -25,10 +25,13 @@
                 </li>
               </ul>
             </div>
-            <div class="ads-btn">
+            <div class="ada-btn">
               <button>
                 <span>{{restaurantImage.address}}</span>
-                <i class="icon-triangle"></i>
+                <div class="icon-wrap">
+                  <i class="icon-triangle"></i>
+                  <i class="icon-triangle-shadow"></i>
+                </div>
               </button>
             </div>
           </div>
@@ -338,23 +341,65 @@
             }
           }
         }
-        .ads-btn{
+        .ada-btn{
+          width:100%;
+          box-sizing: border-box;
+          padding:20px;
+          button{
             width:100%;
-            box-sizing: border-box;
-            padding:20px;
-            button{
-              width:100%;
-              height:55px;
-              line-height:55px;
-              background:rgba(255,255,255,1);
-              box-shadow:0px 8px 10px 0px rgba(129,140,166,0.08),0px 1px 0px 0px rgba(0,0,0,0.05);
-              font-size:14px;
-              font-family:PingFangSC-Regular;
-              font-weight:400;
-              color:rgba(26,26,26,1);
-              border-radius:0;
+            display:flex;
+            justify-content:space-between;
+            align-items:center;
+            height:55px;
+            line-height:55px;
+            background:rgba(255,255,255,1);
+            box-shadow:0px 8px 10px 0px rgba(129,140,166,0.08),0px 1px 0px 0px rgba(0,0,0,0.05);
+            font-size:14px;
+            font-family:PingFangSC-Regular;
+            font-weight:400;
+            color:rgba(26,26,26,1);
+            border-radius:0;
+            text-align: left;
+            padding:0 20px;
+            span{
+              flex:1;
+            }
+            .icon-wrap{
+              width:20px;
+              height:10px;
+              position:relative;
+              .icon-triangle{
+                position: absolute;
+                top:0;
+                left:0;
+                width:0;
+                height:0;
+                z-index:2;
+                overflow:hidden;
+                font-size: 0;     /*是因为, 虽然宽高度为0, 但在IE6下会具有默认的 */
+                line-height: 0;  /* 字体大小和行高, 导致盒子呈现被撑开的长矩形 */
+                border-width: 7px 0 7px  10px ;
+                border-style:solid;  /*ie6下会出现不透明的兼容问题*/
+                border-color:transparent transparent transparent rgba(225,11,34,1);
+              }
+              .icon-triangle-shadow{
+                position: absolute;
+                top:2px;
+                left:2px;
+                width:0;
+                z-index:1;
+                height:0;
+                overflow:hidden;
+                font-size: 0;     /*是因为, 虽然宽高度为0, 但在IE6下会具有默认的 */
+                line-height: 0;  /* 字体大小和行高, 导致盒子呈现被撑开的长矩形 */
+                border-width:7px 0 7px  10px ;
+                border-style:solid;  /*ie6下会出现不透明的兼容问题*/
+                border-color:transparent transparent transparent rgba(225,11,34,0.2);
+              }
             }
           }
+          
+        }
       }
       .tab{
         background:rgba(246,248,251,1);

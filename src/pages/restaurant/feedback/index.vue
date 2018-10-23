@@ -18,8 +18,8 @@
           </div>
         </li>
         <li class="map">
-          <div class="image-wrap">
-            <img src="" alt="">
+          <div class="icon-wrap">
+            <i></i>
           </div>
         </li>
       </ul>
@@ -136,12 +136,16 @@ export default {
           position:absolute;
           overflow:hidden;
           border-radius:50%;
-          width:75px;
-          height:75px;
           right:20px;
           bottom:-35px;
-          background:$theme-highlight;
           box-shadow:0px 2px 11px 0px rgba(0,0,0,0.11);
+          .icon-wrap{
+            width:75px;
+            height:75px;
+            border-radius:50%;
+            background-size:cover;
+            background-image:url($image-url + 'images/restaurant/feedback/ButtonPrimaryCircle@2x.png');
+          }
         }
       }
       

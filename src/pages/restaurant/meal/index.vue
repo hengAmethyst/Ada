@@ -76,8 +76,10 @@
         <li>分享</li>
         <li @click="bindToBill">买单</li>
       </ul>
-     <div class="call">
-       
+     <div class="voice">
+       <div class="icon-wrap">
+         <i></i>
+       </div>
      </div>
     </div>
   </div>
@@ -274,15 +276,17 @@ export default {
           color:rgba(26,26,26,1);
         }
       }
-      .call{
+      .voice{
         position:absolute;
-        width:70px;
-        height:70px;
-        border-radius:50%;
-        background:rgba(225,11,34,1);
-        box-shadow:0px 4px 5px 0px rgba(0,0,0,0.15);
-        top:-35px;
-        right:35px;
+        top:-36px;
+        right:36px;
+        .icon-wrap{
+          border-radius:50%;
+          width: 72px;
+          height: 72px;
+          background-size:cover;
+          background-image:url($image-url + 'images/restaurant/voice/technology@2x.png');
+        }
       }
     }
   }

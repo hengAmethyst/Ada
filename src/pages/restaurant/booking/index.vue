@@ -249,21 +249,23 @@ export default {
     },
     minAdd(){
       let min = this.min;
-      if (this.min < 59 && this.min >= 0) {
-        if ( min >= 55 ) {
-          this.min = 55
+      if (this.min <= 59 && this.min >= 0) {
+        if ( min >= 30 ) {
+          this.min = 0;
+          this.hourAdd()
         }else{
-          this.min = min + 5;
+          this.min = min + 30;
         }
       }
     },
     minSubtract(){
       let min = this.min;
-      if (this.min <= 60 && this.min > 0) {
+      if (this.min <= 59 && this.min >= 0) {
         if ( min <= 0 ) {
-          this.min = 0
+          this.min = 30
+          this.hourSubtract()
         }else{
-          this.min = min - 5
+          this.min = min - 30
         }
       }
     },

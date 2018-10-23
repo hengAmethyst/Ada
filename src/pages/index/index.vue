@@ -118,10 +118,10 @@
         }
         .icon-wrap{
           .icon-scan{
-            background-image:url($image-url + 'default.png');
+            background-image:url($image-url + 'images/homepage/Group@2x.png');
             width:30px;
-            height:30px;
-            background-image:100% 100%;
+            height:27px;
+            background-size:cover;
           }
         }
       }
@@ -141,7 +141,7 @@
         width: 100%;
         height:140px;
         background:rgba(1,1,1,1);
-        background-image:url($image-url + 'timg.png');
+        background-image:url($image-url + 'images/common/timg.png');
         background-size:cover;
       }
       .section-2-2{
@@ -151,7 +151,7 @@
         width: 100%;
         height:140px;
         background:rgba(1,1,1,1);
-        background-image:url($image-url + 'timg.png');
+        background-image:url($image-url + 'images/common/timg.png');
         background-size:cover;
       }
       .section-2-3{
@@ -161,7 +161,7 @@
         width: 100%;
         height:140px;
         background:rgba(1,1,1,1);
-        background-image:url($image-url + 'timg.png');
+        background-image:url($image-url + 'images/common/timg.png');
         background-size:cover;
       }
     }

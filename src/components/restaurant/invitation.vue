@@ -6,7 +6,7 @@
 				<span>诚邀您一起用餐</span>
 				<div class="user-avatar">
 					<div class="avatar-wrap">
-						<img src="http://cdn.awbchina.com/wximage/default.png" alt="">
+						<img src="http://insurance.awbchina.com/ada/images/restaurant/invitation/Page1@2x.png" alt="">
 					</div>
 				</div>
 			</div>
@@ -21,7 +21,7 @@
 						<div class="name-wrap">
 							<div class="name">隐士电影主题餐厅(双楠店)</div>
 							<div class="icon-wrap">
-					        	<i class="icon-right"></i>
+					        	<i></i>
 					      	</div>
 						</div>
 					</li>
@@ -31,10 +31,10 @@
 					<li class="time">
 						<span>2月19日 周三 19:30</span>
 					</li>
-					<li>
+					<li class="address-wrap">
 						<div class="address">蜀汉大道82号奥克斯广场5楼</div>
 						<div class="icon-wrap">
-				        	<i class="icon-right"></i>
+				        	<i></i>
 				      	</div>
 					</li>
 				</ul>
@@ -187,11 +187,37 @@ export default {
 							}
 						}
 					}
-					.name{
+					.name-wrap{
 						font-size:17px;
 						font-family:PingFangSC-Medium;
 						font-weight:500;
+						display:flex;
+			          	justify-content:space-between;
+			          	align-items:center;
+						.name{
+							flex:1;
+						}
+						.icon-wrap{
+  							width: 10px ;
+  							height: 16px ;
+			              	background-size:cover;
+          					background-image:url($image-url + 'images/restaurant/invitation/CombinedShape@2x.png');
+	  					}
 					}
+				}
+				li.address-wrap{
+					display:flex;
+		          	justify-content:space-between;
+		          	align-items:center;
+		          	.address{
+						flex:1;
+		          	}
+		          	.icon-wrap{
+						width: 10px ;
+						height: 16px ;
+		              	background-size:cover;
+      					background-image:url($image-url + 'images/restaurant/invitation/CombinedShape@2x.png');
+  					}
 				}
 			}
 			.firends{
@@ -252,7 +278,8 @@ export default {
 			.icon-wrap{
 				width:100%;
 				height:100%;
-				background-size:100% 100%;
+				background-size:cover;
+				background-image:url($image-url + 'images/restaurant/invitation/Group7@2x.png');
 			}
 		}
 	}
