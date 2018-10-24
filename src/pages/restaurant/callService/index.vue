@@ -92,14 +92,18 @@ export default {
       .icon-wrap{
         width:50px;
         height:50px;
-        margin-right: 10px;
+        margin-right: 20px;
         background-size:cover;
       }
       .icon-avatar{
         background-image:url($image-url + 'images/restaurant/details/avatar@2x.png');
       }
       .icon-name{
-        background-color: #fff;
+        width:80px;
+        background-size:100%;
+        background-repeat:no-repeat;
+        background-position:center center;
+        background-image:url($image-url + 'images/restaurant/voice/ada@2x.png');
       }
     }
     .content{

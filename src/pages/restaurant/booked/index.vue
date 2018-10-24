@@ -60,7 +60,7 @@
             <div class="icon-wrap icon-cancel"><i></i></div>
             <div>取消</div>
           </div>
-          <div  v-if="bookedSuccess">
+          <div  v-show="bookedSuccess">
             <div class="icon-wrap icon-feedback"><i></i></div>
             <div>留言</div>
           </div>

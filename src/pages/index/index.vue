@@ -30,8 +30,9 @@
 </template>
 
 <script>
-  import {mapState, mapMutations} from 'vuex'
-  import { cInfo } from '@/http/api.js'
+  import { mapState, mapMutations } from 'vuex'
+  import { restList } from '@/http/api.js'
+  import { fetchRestList } from '@/http/api.js'
   export default {
     data () {
       return {
@@ -47,46 +48,23 @@
     },
     computed:{
       ...mapState([
-        'openId'
+        'openId',
+        'locationInfo'
       ]),
     },
     methods: {
+      
       bindToList(){
         wx.navigateTo({
           url: '/pages/restaurant/list/main'
         })
       },
-      fetchCInfo(){
-        let params = {id:35}
-        cInfo(params).then(res=>{ 
-          console.log(res); 
-        })
-      },
-      http(){
-        wx.request({
-          url: 'http://api.codkui.com/?service=Rest.Rest._list', //仅为示例，并非真实的接口地址
-          data: {
-            lat: '30.540627818102287',
-            lng: '104.10323330800178',
-            page: 1
-          },
-          header: {
-            'content-type': 'application/json' // 默认值
-          },
-          success (res) {
-            console.log(res.data)
-          }
-        })
-      }
     },
 
     created () {
-      this.http()
+      // this.http()
       // 调用应用实例的方法获取全局数据
     },
-    mounted(){
-      this.fetchCInfo()
-    }
   }
 </script>
 

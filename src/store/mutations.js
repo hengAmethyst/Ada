@@ -5,6 +5,9 @@ const mutations = {
     [types.SET_OPEN_ID](state, v) {
         state.openId = v
     },
+    [types.SET_LOCATION](state, v) {
+        state.locationInfo = v
+    },
 }
 
 export default mutations;

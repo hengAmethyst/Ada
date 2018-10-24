@@ -115,7 +115,11 @@ export default {
         background-image:url($image-url + 'images/restaurant/invitation/Page1@2x.png');
       }
       .icon-name{
-        background-color: #fff;
+        width:80px;
+        background-size:100%;
+        background-repeat:no-repeat;
+        background-position:center center;
+        background-image:url($image-url + 'images/restaurant/voice/adaback@2x.png');
       }
     }
     .title{

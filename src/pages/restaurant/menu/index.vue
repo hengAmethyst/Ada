@@ -131,6 +131,14 @@ export default {
           image:'http://cdn.awbchina.com/wximage/default.png',
           name:'黄小波'
         },
+        {
+          image:'http://cdn.awbchina.com/wximage/default.png',
+          name:'黄小波'
+        },
+        {
+          image:'http://cdn.awbchina.com/wximage/default.png',
+          name:'黄小波'
+        },
       ],
       specialCuisine:[
         {
@@ -705,6 +713,8 @@ export default {
           }
           .right{
             min-width:50%;
+            max-width:60%;
+            overflow-x:scroll;
             ul{
               display:flex;
               li{

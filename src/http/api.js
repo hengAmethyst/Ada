@@ -36,14 +36,14 @@ export const get = (params) => {
     return fly.get(`${params.url}`, qs.stringify(params.data))
 };
 
-// 通用的post请求
+// 通用的post请求 根据后台接收方式选择是否加qs.stringify
 export const post = (params) => {
     return fly.post(`${params.url}`, qs.stringify(params.data))
 };
 
 
 
-// 封装的登录请求，根据后台接收方式选择是否加qs.stringify
-export const cInfo = params => {
-    return fly.post('v1/company/get', params)
+//附近餐厅列表
+export const fetchRestList = params => {
+    return fly.get('?service=Rest.Rest._list', params)
 };

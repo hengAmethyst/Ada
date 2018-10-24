@@ -1,5 +1,5 @@
 // 配置
-const host = 'http://testapi.awbchina.com' // 生产
+const host = 'http://api.codkui.com/' // 生产
 const timeout = 20000;
 const appid = '';
 const appKey = '';

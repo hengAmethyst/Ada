@@ -19,7 +19,9 @@
         <span>这是什么菜 ？</span>
       </div>
       <screen></screen>   
-      <div class="search" @click="bindToSearch"></div>
+      <div class="search" @click="bindToSearch">
+        <div class="icon-wrap"></div>
+      </div>
       <div class="avatar">
         <div class="image-wrap">
           <img src="http://insurance.awbchina.com/ada/images/restaurant/details/avatar@2x.png" alt="">
@@ -31,15 +33,15 @@
         <li v-for="(rest, restIndex) in restaurantList" :key="rest.id" @click="bindToDetails">
           <div class="left">
             <div class="image-wrap">
-              <img :src="rest.image" alt="">
+              <img :src="rest.header_img" alt="">
             </div>
           </div>
           <div class="restaurant-info">
             <div class="top">
-              <div class="state" :class="{ crowding: rest.state == 1 }">
+              <div class="state" :class="{ crowding: rest.open_status == 1 }">
               </div>
               <div>
-                {{rest.range}}
+                {{rest.distance}}m
               </div>
             </div>
             <div class="center">
@@ -47,13 +49,13 @@
             </div>
             <div class="bottom">
               <span>¥</span>
-              <span>{{rest.price}}</span>
+              <span>{{rest.average_price}}</span>
               <i></i>
-              <span>{{rest.adress}}</span>
+              <span>{{rest.street}}</span>
               <i></i>
-              <span>{{rest.type}}</span>
+              <span>{{rest.class_name}}</span>
             </div>
-            <div class="crowding-tip" v-if=" rest.state == 1">
+            <div class="crowding-tip" v-if=" rest.statu == 1">
                 拥挤需排队
             </div>
           </div>
@@ -69,54 +71,68 @@
   import invitation from '@/components/restaurant/invitation';
   import welcome from '@/components/restaurant/welcome';
   import screen from '@/components/restaurant/screen';
+  import { fetchRestList } from '@/http/api.js'
+  import { mapState, mapMutations } from 'vuex'
   export default {
+    components: {
+      invitation,
+      welcome,
+      screen  
+    },
     data () {
       return {
         userinfo: {
           name: 'Trista'
         },
-        restaurantList: [
-          {
-            id: 1,
-            image: 'http://cdn.awbchina.com/wximage/default.png',
-            name: 'A aboluo 阿波罗',
-            price: '98',
-            adress: '光明路',
-            type: '火锅',
-            state: 1,
-            range: '100m'
-          },
-          {
-            id: 2,
-            image: 'http://cdn.awbchina.com/wximage/default.png',
-            name: '阿波罗阿波罗阿波罗阿波罗',
-            price: '98',
-            adress: '光明路',
-            type: '火锅',
-            state: 0,
-            range: '100m'
-          },
-          {
-            id: 3,
-            image: 'http://cdn.awbchina.com/wximage/default.png',
-            name: 'A aboluo 阿波罗',
-            price: '98',
-            adress: '光明路',
-            type: '火锅',
-            state: 1,
-            range: '100m'
-          }
-        ],
+        // restaurantList: [
+        //   {
+        //     id: 1,
+        //     image: 'http://cdn.awbchina.com/wximage/default.png',
+        //     name: 'A aboluo 阿波罗',
+        //     price: '98',
+        //     adress: '光明路',
+        //     type: '火锅',
+        //     state: 1,
+        //     range: '100m'
+        //   },
+        //   {
+        //     id: 2,
+        //     image: 'http://cdn.awbchina.com/wximage/default.png',
+        //     name: '阿波罗阿波罗阿波罗阿波罗',
+        //     price: '98',
+        //     adress: '光明路',
+        //     type: '火锅',
+        //     state: 0,
+        //     range: '100m'
+        //   },
+        //   {
+        //     id: 3,
+        //     image: 'http://cdn.awbchina.com/wximage/default.png',
+        //     name: 'A aboluo 阿波罗',
+        //     price: '98',
+        //     adress: '光明路',
+        //     type: '火锅',
+        //     state: 1,
+        //     range: '100m'
+        //   }
+        // ],
+        restList:[],
         invitationShow:0,
         welcomeShow:0,
         infoShow:1
       }
     },
-
-    components: {
-      invitation,
-      welcome,
-      screen  
+    computed: {
+      restaurantList:function(){
+        let restList = this.restList || [];
+        restList.forEach( r => {
+          r.distance = Math.round(r.distance)
+        })
+        return restList
+      },
+      ...mapState([
+        'locationInfo'
+      ])
     },
     onPageScroll:function(e){
       if (e.scrollTop >= 120) {
@@ -140,11 +156,26 @@
          wx.navigateTo({
           url: '/pages/user/userOrder/main'
         })
+      },
+      fetchRestList(){
+        let _this = this;
+        let params = {
+            lat: this.locationInfo.latitude,
+            lng: this.locationInfo.longitude,
+            page: 1
+          }
+        fetchRestList(params).then(res=>{ 
+          let r = res.data
+          _this.restList = r.data
+        })
       }
     },
 
     created () {
       // 调用应用实例的方法获取全局数据
+    },
+    mounted(){
+      this.fetchRestList()
     }
   }
 </script>
@@ -201,13 +232,15 @@
         position: absolute;
         right: 15px;
         bottom: -15px;
-        width: 40px;
-        height: 40px;
         border-radius:50%;
-        background-color: rgba(225, 11, 34, 1);
-        background-size:cover;
-        background-image:url($image-url + 'images/restaurant/details/Group4@2x.png');
-        box-shadow: 0px 16px 34px 0px rgba(0, 0, 0, 0.16);
+        .icon-wrap{
+          background-size:cover;
+          border-radius:50%;
+          width: 40px;
+          height: 40px;
+          background-image:url($image-url + 'images/restaurant/details/Group4@2x.png');
+          box-shadow: 0px 16px 34px 0px rgba(0, 0, 0, 0.16);
+        }
       }
       .avatar{
         position:absolute;
@@ -267,6 +300,7 @@
               left: 10px;
               z-index: 10;
               overflow: hidden;
+              background-color:#f9f9f9;
               img{
                 width: 100%;
               }
@@ -293,6 +327,7 @@
               }
             }
             .center{
+              min-height:22px;
               font-size: 16px;
               font-weight:550;
               margin-bottom: 10px;

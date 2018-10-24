@@ -1,9 +1,14 @@
 import * as types from './mutation-types'
 // 进行涉及到多个全局变量的复杂计算
 
-// export const setOpenId = ({ commit }, { id }) => {
-//     commit(types.OPEN_ID, id)
-// }
+const setOpenId = ({ commit }, { id }) => {
+	console.log(openId)
+    commit(openId, id)
+}
+const setLocation = ({ commit }, { v }) => {
+    commit(locationInfo, v)
+}
 export default {
-    setOpenId: ({ commit }, { id }) => commit(openId, id)
+    setOpenId: setOpenId,
+    setLocation: setLocation
 }
