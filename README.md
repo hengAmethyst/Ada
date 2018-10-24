@@ -18,17 +18,17 @@
 │   │   │   ├── 
 │   │   │   └── 
 │   │   └── user                              	
-│   │   	 ├── 
-│   │   	 └── 
+│   │		├── 
+│   │		└── 
 │   ├── http									// 数据交互
-│   │	├──	api.js 								// api
-│	│	├──	config.js							// api各种配置
-│	│	└──	fly.js								// flyio
+│   │  	├──	api.js 								// api
+│   │  	├──	config.js							// api各种配置
+│   │  	└──	fly.js								// flyio
 │   ├── pages
 │   │   ├── index								// 首页
 │   │   │	├──	index.vue
 │   │   │	└──	main.js
-│   │   ├──restaurant							// 餐厅
+│   │   ├── restaurant							// 餐厅
 │   │   │	├──	bill							// 买单
 │   │   │	├──	booked							// 支付预定
 │   │   │	├──	booking							// 预定 选座
@@ -44,13 +44,13 @@
 │   │   │	├──	scanQR							// 扫描识别
 │   │   │	├──	screen							
 │   │   │	└──	search							// 搜索餐厅
-│   │   └──user
+│   │   └── user
 │   │   	├──	login							// 登录
 │   │   	├──	userInfo						// 个人信息
 │   │   	└──	userOrder						// 个人订单
-│   ├── sass                                 	// 样式
+│   ├── sass
 │   │   ├──	common.scss 						//公共样式 
-│   │   └── 						                          
+│   │   └──
 │   ├── store                                   // vuex的状态管理
 │   │   ├── action.js                           // 配置actions
 │   │   ├── getters.js                          // 配置getters
@@ -65,7 +65,7 @@
 │   ├── App.json                                // 小程序初始配置
 │   ├── App.vue                                 // 页面入口
 │   ├── main.js                                 // 程序入口
-├── static                                  	// iconfont img qiniu资源
+├── static                                  	// 
 │   └──
 .
 .
