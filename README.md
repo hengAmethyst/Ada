@@ -21,9 +21,9 @@
 │   │ 		├──
 │   │ 		└──
 │   ├── http									// 数据交互
-│   │  	├──	api.js 								// api
-│   │  	├──	config.js							// api各种配置
-│   │  	└──	fly.js								// flyio
+│   │  	├── api.js 								// api
+│   │  	├── config.js							// api各种配置
+│   │  	└── fly.js								// flyio
 │   ├── pages
 │   │   ├── index								// 首页
 │   │   │	├── index.vue
