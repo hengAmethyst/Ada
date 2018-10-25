@@ -8,9 +8,16 @@
       <div>
         <div class="backg"></div>
         <div class="bill-wrap">
-          <div class="seat">
-            <span>{{bill.seat}}</span>            
-            <div class="icon-wrap">
+          <div class="row-number-wrap">
+            <div class="row-number">
+              <div class="image-wrap">
+                <img :src="bill.row" alt="">
+              </div> 
+              <div class="image-wrap">
+                <img :src="bill.number" alt="">
+              </div>      
+            </div>           
+            <div class="icon-triangle-wrap">
               <i class="icon-triangle"></i>
             </div> 
           </div>
@@ -44,7 +51,8 @@ export default {
     return {
       bill:{
         name:'A Boluza 阿波罗意大利餐厅',
-        seat:'A8',
+        row:'http://insurance.awbchina.com/ada/images/restaurant/row/A@2x.png',
+        number:'http://insurance.awbchina.com/ada/images/restaurant/row/8@2x.png',
         people:5,
         price:524.8,
         list:[
@@ -155,7 +163,7 @@ export default {
         margin-top:-40px;
         background:rgba(255,255,255,1);
         box-shadow:0px 8px 19px 0px rgba(129,140,166,0.15);
-        .seat{
+        .row-number-wrap{
           height:80px;
           line-height:80px;
           font-size:45px;
@@ -164,7 +172,7 @@ export default {
           text-align:center;
           border-bottom:2px solid rgba(242,242,242,1);
           position: relative;
-          .icon-wrap{
+          .icon-triangle-wrap{
             position: absolute;
             top:-15px;
             left:50%;
@@ -182,6 +190,20 @@ export default {
               border-width:0 20px 15px 20px;
               border-style:solid;  /*ie6下会出现不透明的兼容问题*/
               border-color:transparent transparent rgba(256,256,256,1) transparent;
+            }
+          }
+          .row-number{
+            display:flex;
+            justify-content:center;
+            align-items:center;
+            .image-wrap{
+              width:18px;
+              height:32px;
+              margin:2px;
+              img{
+                width:100%;
+                height:100%;
+             } 
             }
           }
         }

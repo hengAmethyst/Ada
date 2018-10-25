@@ -1,9 +1,9 @@
 {
   "pages": [
     "pages/index/main",
-    "pages/restaurant/booking/main",
     "pages/restaurant/bill/main",
     "pages/restaurant/search/main",
+    "pages/restaurant/booking/main",
     "pages/restaurant/meal/main",
     "pages/restaurant/feedback/main",
     "pages/restaurant/callService/main",

@@ -513,6 +513,34 @@ export default {
 
   created () {
     // 调用应用实例的方法获取全局数据
+  },
+  onShareAppMessage: function (res) {
+    if (res.from === 'button') {
+      // 来自页面内转发按钮
+      console.log(res.target)
+    }
+    return {
+      title: '我请客，你先点菜吧~',
+      path: '/pages/restaurant/list/main?share_id=1',
+      imageUrl: 'http://insurance.awbchina.com/ada/images/restaurant/invitation/Page1@2x.png',
+      success: function (res) {
+        var shareTickets = res.shareTickets;
+        if (shareTickets.length == 0) {
+          return false;
+        }
+        wx.getShareInfo({
+          shareTicket: shareTickets[0],
+          success: function (res) {
+            var encryptedData = res.encryptedData;
+            var iv = res.iv;
+          }
+        })
+      },
+      fail: function (res) {
+        console.log(res)
+        // 转发失败
+      }
+    }
   }
 }
 </script>

@@ -41,7 +41,7 @@
               <div class="state" :class="{ crowding: rest.open_status == 1 }">
               </div>
               <div>
-                {{rest.distance}}m
+                {{rest.distance}}
               </div>
             </div>
             <div class="center">
@@ -126,7 +126,13 @@
       restaurantList:function(){
         let restList = this.restList || [];
         restList.forEach( r => {
-          r.distance = Math.round(r.distance)
+          if ( r.distance < 1000 ) {
+            r.distance = Math.round(r.distance);
+            r.distance = r.distance + 'm'
+          }else{
+            r.distance = Math.round(r.distance / 1000);
+            r.distance = r.distance + 'km'
+          }
         })
         return restList
       },

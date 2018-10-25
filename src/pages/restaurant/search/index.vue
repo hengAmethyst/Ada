@@ -8,7 +8,7 @@
         <input type="text" @input="bindInput" placeholder="请输入餐厅信息" v-model="searchValue">
       </div>
       <div class="right">
-        <button>取消</button>
+        <button @click="cancel">取消</button>
       </div>
     </div>
     <div class="content">
@@ -17,7 +17,7 @@
           最近搜索
         </div>
         <ul>
-          <li v-for="(lat, latIndex) in latelyData" :key="latIndex">
+          <li v-for="(lat, latIndex) in latelyData" :key="latIndex" @click="bindLately(lat)">
             {{lat}}
           </li>
         </ul>
@@ -42,48 +42,57 @@
               </div>
             </li>
           </ul>
+          <div class="result-null" v-if="enteringData.length == 0">
+            <span>搜索无结果~</span>
+          </div>
         </div>
       </div>
       <div class="restaurant-list"  v-if="restaurant">
-        <ul>
-          <li v-for="(rest, restIndex) in restaurantList" :key="restIndex">
-          <div class="left">
-            <div class="image-wrap">
-              <img :src="rest.image" alt="">
-            </div>
-          </div>
-          <div class="restaurant-info">
-            <div class="top">
-              <div class="state" :class="{ crowding: rest.state == 1 }">
+        <div>
+          <ul>
+            <li v-for="(rest, restIndex) in restaurantList" :key="restIndex">
+              <div class="left">
+                <div class="image-wrap">
+                  <img :src="rest.image" alt="">
+                </div>
               </div>
-              <div>
-                {{rest.range}}
+              <div class="restaurant-info">
+                <div class="top">
+                  <div class="state" :class="{ crowding: rest.state == 1 }">
+                  </div>
+                  <div>
+                    {{rest.range}}
+                  </div>
+                </div>
+                <div class="center">
+                  {{rest.name}}
+                </div>
+                <div class="bottom">
+                  <span>¥</span>
+                  <span>{{rest.price}}</span>
+                  <i></i>
+                  <span>{{rest.adress}}</span>
+                  <i></i>
+                  <span>{{rest.type}}</span>
+                </div>
+                <div class="crowding-tip" v-if=" rest.state == 1">
+                    拥挤需排队
+                </div>
               </div>
-            </div>
-            <div class="center">
-              {{rest.name}}
-            </div>
-            <div class="bottom">
-              <span>¥</span>
-              <span>{{rest.price}}</span>
-              <i></i>
-              <span>{{rest.adress}}</span>
-              <i></i>
-              <span>{{rest.type}}</span>
-            </div>
-            <div class="crowding-tip" v-if=" rest.state == 1">
-                拥挤需排队
-            </div>
+            </li>
+          </ul>
+          <div class="result-null" v-if="restaurantList.length == 0">
+            <span>搜索无结果~</span>
           </div>
-        </li>
-        </ul>
+        </div>
       </div>
     </div>
   </div>
 </template>
 
 <script>
-
+import { fetchSearch } from '@/http/api.js'
+import { mapState, mapMutations } from 'vuex'
 export default {
   data () {
     return {
@@ -91,64 +100,122 @@ export default {
       lately:1,
       entering:0,
       restaurant:0,
-      latelyData:['太古里','gentlemonster','翠园','星巴克','翠园','星巴克'],
-      enteringData:[
-        {
-          id:1,
-          iamge:'',
-          name:'瘾食电影主题餐厅 双楠店瘾食电影主题餐厅 双楠店',
-          been:1,
-          range:'1.7km'
-        },
-        {
-          id:2,
-          iamge:'',
-          name:'瘾食电影主题餐厅',
-          been:0,
-          range:'2.5km'
-        }
-      ],
-      restaurantList: [
-        {
-          id: 1,
-          image: 'http://cdn.awbchina.com/wximage/default.png',
-          name: 'A aboluo 阿波罗',
-          price: '98',
-          adress: '光明路',
-          type: '火锅',
-          state: 1,
-          range: '100m'
-        },
-        {
-          id: 2,
-          image: 'http://cdn.awbchina.com/wximage/default.png',
-          name: '阿波罗阿波罗阿波罗阿波罗',
-          price: '98',
-          adress: '光明路',
-          type: '火锅',
-          state: 0,
-          range: '100m'
-        },
-        {
-          id: 3,
-          image: 'http://cdn.awbchina.com/wximage/default.png',
-          name: 'A aboluo 阿波罗',
-          price: '98',
-          adress: '光明路',
-          type: '火锅',
-          state: 1,
-          range: '100m'
-        }
-      ]
+      latelyData:[],
+      // enteringData:[
+      //   {
+      //     id:1,
+      //     iamge:'',
+      //     name:'瘾食电影主题餐厅 双楠店瘾食电影主题餐厅 双楠店',
+      //     been:1,
+      //     range:'1.7km'
+      //   },
+      //   {
+      //     id:2,
+      //     iamge:'',
+      //     name:'瘾食电影主题餐厅',
+      //     been:0,
+      //     range:'2.5km'
+      //   }
+      // ],
+      // restaurantList: [
+      //   {
+      //     id: 1,
+      //     image: 'http://cdn.awbchina.com/wximage/default.png',
+      //     name: 'A aboluo 阿波罗',
+      //     price: '98',
+      //     adress: '光明路',
+      //     type: '火锅',
+      //     state: 1,
+      //     range: '100m'
+      //   },
+      //   {
+      //     id: 2,
+      //     image: 'http://cdn.awbchina.com/wximage/default.png',
+      //     name: '阿波罗阿波罗阿波罗阿波罗',
+      //     price: '98',
+      //     adress: '光明路',
+      //     type: '火锅',
+      //     state: 0,
+      //     range: '100m'
+      //   },
+      //   {
+      //     id: 3,
+      //     image: 'http://cdn.awbchina.com/wximage/default.png',
+      //     name: 'A aboluo 阿波罗',
+      //     price: '98',
+      //     adress: '光明路',
+      //     type: '火锅',
+      //     state: 1,
+      //     range: '100m'
+      //   }
+      // ]
     }
   },
 
   components: {
   },
-
+  computed: {
+    enteringData:function(){
+      let restList = this.restList || [];
+      restList.forEach( r => {
+        if ( r.distance < 1000 ) {
+          r.distance = Math.round(r.distance);
+          r.distance = r.distance + 'm'
+        }else{
+          r.distance = Math.round(r.distance / 1000);
+          r.distance = r.distance + 'km'
+        }
+      })
+      return restList
+    },
+    restaurantList:function(){
+      let restList = this.restList || [];
+      restList.forEach( r => {
+        if ( r.distance < 1000 ) {
+          r.distance = Math.round(r.distance);
+          r.distance = r.distance + 'm'
+        }else{
+          r.distance = Math.round(r.distance / 1000);
+          r.distance = r.distance + 'km'
+        }
+      })
+      console.log(restList)
+      return restList
+    },
+    ...mapState([
+      'locationInfo'
+    ])
+  },
   methods: {
+    setLatelyData(val){
+      let _this = this;
+      if (val) {
+        wx.getStorage({
+          key: 'latelyData',
+          success (res) {
+            let latelyData = res.data;
+            let stu = latelyData.find((element) => (element == val))
+            if (!stu) {
+              if (latelyData.length >= 10) {
+                latelyData.pop()
+              }
+              latelyData.unshift(val);
+              _this.latelyData = latelyData ;
+              wx.setStorage({
+                key: "latelyData",
+                data: latelyData
+              })
+            }
+          },
+          fail(){
+
+          } 
+        })
+      }
+    },
     bindSearch(){
       if (this.searchValue) {
+        this.fetchSearch()
         this.lately = 0
         this.entering = 0
         this.restaurant = 1
@@ -156,6 +223,7 @@ export default {
     },
     bindInput(){
       if (this.searchValue) {
+        this.fetchSearch()
         this.lately = 0
         this.entering = 1
         this.restaurant = 0
@@ -164,11 +232,48 @@ export default {
         this.entering = 0
         this.restaurant = 0
       }
+    },
+    fetchSearch(){
+      let _this = this;
+      let params = {
+        lat: this.locationInfo.latitude,
+        lng: this.locationInfo.longitude,
+        keyword: this.searchValue
+      }
+      fetchSearch(params).then(res=>{ 
+        let r = res.data
+        _this.restList = r.data
+        _this.setLatelyData(this.searchValue)
+      })
+    },
+    bindLately(val){
+      this.searchValue = val;
+      this.bindSearch()
+    },
+    cancel(){
+      wx.navigateBack({
+        delta: 1
+      })
     }
   },
 
   created () {
     // 调用应用实例的方法获取全局数据
+  },
+  mounted () {
+    let _this = this;
+    wx.getStorage({
+      key: 'latelyData',
+      success (res) {
+        _this.latelyData = res.data || [];
+      },
+      fail (res) {
+        wx.setStorage({
+          key: "latelyData",
+          data: []
+        })
+      }  
+    })
   }
 }
 </script>
@@ -383,6 +488,12 @@ export default {
             }
           }
         }
+      }
+      .result-null{
+          font-size:13px;
+          color:#ccc;
+          color:#ccc;
+          padding:0 20px;
       }
     }
   }

@@ -47,3 +47,11 @@ export const post = (params) => {
 export const fetchRestList = params => {
     return fly.get('?service=Rest.Rest._list', params)
 };
+//指定餐厅信息
+export const fetchRestInfo = params => {
+    return fly.get('?service=Rest.Rest.Info', params)
+};
+//餐厅搜索列表
+export const fetchSearch = params => {
+    return fly.get('?service=Rest.Rest.Search', params)
+};
