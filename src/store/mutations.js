@@ -8,6 +8,9 @@ const mutations = {
     [types.SET_LOCATION](state, v) {
         state.locationInfo = v
     },
+    [types.dishInfo](state, v) {
+        state.dishInfo = v
+    },
 }
 
 export default mutations;

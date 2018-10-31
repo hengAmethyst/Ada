@@ -1,15 +1,14 @@
 <template>
     <div class="box">
-
-
-        <!-- <camera device-position="back" flash="off" binderror="error" style="width: 100%; height: 300px;"></camera>
-<button type="primary" @click="takePhoto">拍照</button>
-<view>预览</view>
-<image mode="widthFix" :src="src"/> -->
-
         <div class="section-1">相册</div>
-        <div class="section-2"></div>
-        <div class="section-3" @click="chooseImg"></div>
+
+        <div class="camera-box">
+            <camera device-position="back" flash="off" binderror="error" class="camera" v-if="showCamera"></camera>
+            <img mode="widthFix" :src="imgSrc" class="camera" v-if="!showCamera"/>
+        </div>
+        
+        <div class="section-3" @click="takePhoto" v-if="showCamera"></div>
+
         <div class="section-4">
             <div class="section-4-1">
                 <div class="section-4-1-1"></div>
@@ -26,77 +25,52 @@
     </div>
 </template>
 <script>
-import toBase64 from '@/utils/toBase64'
 export default {
     data(){
         return{
-            access_token: '',
-            imageBaseCode: "",
-            src: ''
+           imgSrc:null,
+           showCamera: true
         }
     },
     methods:{
         takePhoto() {
-    		const ctx = wx.createCameraContext()
-    		ctx.takePhoto({
-    			quality: 'high',
-    			success: (res) => {
-    				this.src = res.tempImagePath
-                    console.log(res)
-                    wx.getFileSystemManager().readFile({
-                        filePath: res.tempImagePath, //选择图片返回的相对路径
-                        encoding: 'base64', //编码格式
-                        success: res => { //成功的回调
-                        console.log(res.data)
-                            this.postImg(res.data)
-                        }
-                    })
-    			}
-    		})
-    	},
-        getToken(){
-            let obj = {
-                url: 'https://aip.baidubce.com/oauth/2.0/token',
-                grant_type: 'client_credentials',
-                client_id: 'QREE7asD4si5DHC5PlHAYCZa',
-                client_secret: 'RF4xG67hdScDkDxoHcbnEokS0xaLLxiu'
-            }
-            let url = `${obj.url}?grant_type=${obj.grant_type}&client_id=${obj.client_id}&client_secret=${obj.client_secret}`
-            wx.request({
-              url: url,
-              method: 'POST',
-              success: (res) => {
-                  console.log(res.data.access_token)
-                  this.access_token = res.data.access_token
-              }
+            this.showCamera = false
+            const ctx = wx.createCameraContext()
+            ctx.takePhoto({
+                quality: 'high',
+                success: (res) => {
+                     wx.showLoading({
+                        title: '识别中...',
+                        mask: true
+                     })
+                    this.imgSrc = res.tempImagePath
+                    this.uploadImg(res.tempImagePath)
+                }
             })
         },
-        postImg(baseCode){
-            let obj = {
-                url: 'https://aip.baidubce.com/rest/2.0/image-classify/v2/dish',
-                access_token: this.access_token
-            }
-            let data = {
-                image: encodeURI(baseCode),
-                filter_threshold: 0.95
-            }
-            let url = `${obj.url}?access_token=${obj.access_token}`
-            wx.request({
-              url: url,
-              method: 'POST',
-              header: {'Content-Type': 'application/x-www-form-urlencoded'},
-              data: data,
-              success: (res) => {
-                  console.log(res.data)
-              }
+        uploadImg(imgUrl){
+            wx.uploadFile({
+                url: 'http://api.codkui.com/?service=Menu.Menu.Distinguish',
+                filePath: imgUrl,
+                name: 'file',
+                success: (r)=>{
+                     wx.hideLoading()
+                    let data = JSON.parse(r.data)
+                    let name = data.data.result[0].name
+                   
+                    let dishInfo = {
+                        url: this.imgSrc,
+                        name: name
+                    }
+                    this.$store.commit('DISHINFO',dishInfo)
+                    
+                    wx.navigateTo({url: '/pages/restaurant/scanQR/dishResult/main'})
+                }
             })
-        },
-        chooseImg(){
-            toBase64(this)
         }
     },
-    mounted(){
-        this.getToken()
+    onHide(){
+        this.showCamera = true
     }
 }
 </script>
@@ -107,6 +81,18 @@ export default {
         width: 100%;
         height: 100%;
         background: pink;
+        .camera-box{
+            margin:0 auto;
+            margin-top:130rpx;
+            width: 572rpx; 
+            height: 572rpx; 
+            border-radius: 100%;
+            overflow: hidden;
+            .camera{
+                width:100%;
+                height:100%;
+            }
+        }
         .section-1{
             position: fixed;
             top: 50rpx;
