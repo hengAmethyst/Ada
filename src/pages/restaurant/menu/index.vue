@@ -53,7 +53,7 @@
               <span>￥</span><span class="price">{{ml.price}}</span>
             </div>
             <div v-if="ml.pieces">
-              <input-num :pieces="ml.pieces" @bindInputNum="bindInputNum(mdIndex,mlIndex)"></input-num>
+              <input-num :pieces="ml.pieces" @bindAddNum="bindAddNum(mdIndex,mlIndex)" @bindReduceNum="bindReduceNum(mdIndex,mlIndex)"></input-num>
             </div>
           </li>
         </ul>
@@ -62,10 +62,10 @@
     <div class="nav-wrap">
         <div class="nav nav-order-false" v-if="!order">
           <div class="left">
-            <button>邀请好友点餐</button>
+            <button open-type="share">邀请好友点餐</button>
           </div>
           <div class="right">
-            <button class="book">现在点餐</button>
+            <button class="book" @click="bindOrder">现在点餐</button>
           </div>
         </div>
         <div class="nav nav-order-true" v-else>
@@ -86,7 +86,7 @@
               </li>
             </ul>
             <div v-else>
-              <button class="book">和好友一起点餐</button>
+              <button class="book" open-type="share">和好友一起点餐</button>
             </div>
           </div>
         </div>
@@ -112,8 +112,8 @@ export default {
   data () {
     return {
       menuTypeActive:0,
-      order:1,
-      friends:1,
+      order:0,
+      friends:0,
       friendsList:[
         {
           image:'http://cdn.awbchina.com/wximage/default.png',
@@ -481,6 +481,7 @@ export default {
       }) 
     },
     bindMenuType(index){
+      if (!this.order) { return false }
       this.menuTypeActive = index;
     },
     orderingInfoPop(){
@@ -491,14 +492,25 @@ export default {
       }
       setTimeout(orderingInfoHidden,3000); 
     },
+    bindOrder(){
+      this.order = 1;
+    },
     bindMenuList(mdIndex,mlIndex){
+      if (!this.order) { return false }
+      if (!this.menuData[mdIndex].menuList[mlIndex].pieces) {
+        this.menuData[mdIndex].pieces ++
+        this.menuData[mdIndex].menuList[mlIndex].pieces = 1;
+        this.orderingInfoPop()
+      }
+    },
+    bindAddNum(mdIndex,mlIndex){
       if (!this.menuData[mdIndex].menuList[mlIndex].pieces) {
         this.menuData[mdIndex].pieces ++
       }
       this.menuData[mdIndex].menuList[mlIndex].pieces ++ ;
       this.orderingInfoPop()
     },
-    bindInputNum(mdIndex,mlIndex){
+    bindReduceNum(mdIndex,mlIndex){
       if (this.menuData[mdIndex].menuList[mlIndex].pieces > 0) {
         this.menuData[mdIndex].menuList[mlIndex].pieces -- ;
         if (!this.menuData[mdIndex].menuList[mlIndex].pieces) {
@@ -515,26 +527,28 @@ export default {
     // 调用应用实例的方法获取全局数据
   },
   onShareAppMessage: function (res) {
+    let _this = this;
     if (res.from === 'button') {
       // 来自页面内转发按钮
       console.log(res.target)
+      _this.order = 1;
+      _this.friends = 1;
     }
     return {
       title: '我请客，你先点菜吧~',
       path: '/pages/restaurant/list/main?share_id=1',
       imageUrl: 'http://insurance.awbchina.com/ada/images/restaurant/invitation/Page1@2x.png',
       success: function (res) {
-        var shareTickets = res.shareTickets;
-        if (shareTickets.length == 0) {
-          return false;
-        }
-        wx.getShareInfo({
-          shareTicket: shareTickets[0],
-          success: function (res) {
-            var encryptedData = res.encryptedData;
-            var iv = res.iv;
-          }
-        })
+        // var shareTickets = res.shareTickets || null;
+        // if (shareTickets) {
+        //   wx.getShareInfo({
+        //     shareTicket: shareTickets[0],
+        //     success: function (res) {
+        //       var encryptedData = res.encryptedData;
+        //       var iv = res.iv;
+        //     }
+        //   })
+        // }
       },
       fail: function (res) {
         console.log(res)

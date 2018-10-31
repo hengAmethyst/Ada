@@ -11,7 +11,7 @@
           </div>
           <div v-for="(o, oIndex) in ord.ordered" :key="oIndex" class="ordered-warp">
             <div class="left">
-              <div class="info" @click.stop="bindMenuList(ordIndex,oIndex)">
+              <div class="info">
                 <div class="image-wrap">
                   <img :src="o.image" alt="">
                 </div>
@@ -25,7 +25,7 @@
               <div class="zero" v-if="o.pieces === 0"></div>
             </div>
             <div class="right">
-              <input-num :pieces="o.pieces"  @bindInputNum="bindInputNum(ordIndex,oIndex)"></input-num>
+              <input-num :pieces="o.pieces" @bindAddNum="bindAddNum(ordIndex,oIndex)" @bindReduceNum="bindReduceNum(ordIndex,oIndex)"></input-num>
             </div>
           </div>
         </li>
@@ -129,10 +129,10 @@ export default {
         url: '/pages/restaurant/meal/main'
       })
     },
-    bindMenuList(ordIndex,oIndex){      
+    bindAddNum(ordIndex,oIndex){
       this.orderedData[ordIndex].ordered[oIndex].pieces ++ ;
     },
-    bindInputNum(ordIndex,oIndex){
+    bindReduceNum(ordIndex,oIndex){
       if (this.orderedData[ordIndex].ordered[oIndex].pieces > 0) {
         this.orderedData[ordIndex].ordered[oIndex].pieces -- ;
       }else{

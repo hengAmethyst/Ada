@@ -1,7 +1,7 @@
 <template>
     <div class="input-num" :value="value" v-if="iconShow">
-    	<div class="pieces">{{pieces}}</div>
-        <div class="icon-wrap" @click="bindInputNum">
+    	<div class="pieces" @click="bindAddNum">{{pieces}}</div>
+        <div class="icon-wrap" @click="bindReduceNum">
         	<i :class="iconState"></i>
         </div>
     </div>
@@ -38,8 +38,11 @@
 		    }
 		},
         methods: {
-            bindInputNum(){
-                this.$emit('bindInputNum');
+            bindAddNum(){
+                this.$emit('bindAddNum');
+            },
+            bindReduceNum(){
+                this.$emit('bindReduceNum');
             }
         },
     }

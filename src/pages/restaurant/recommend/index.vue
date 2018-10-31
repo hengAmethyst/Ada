@@ -14,7 +14,7 @@
 	    </div>
      	<div v-for="(rec, recIndex) in recommenData" :key="recIndex" class="recommend-warp">
             <div class="left">
-              <div class="info" @click.stop="bindMenuList(recIndex)">
+              <div class="info">
                 <div class="image-wrap">
                   <img :src="rec.image" alt="">
                 </div>
@@ -28,7 +28,7 @@
               <div class="zero" v-if="rec.pieces === 0"></div>
             </div>
             <div class="right">
-              <input-num :pieces="rec.pieces"  @bindInputNum="bindInputNum(recIndex)"></input-num>
+              <input-num :pieces="rec.pieces" @bindAddNum="bindAddNum(recIndex)"  @bindReduceNum="bindReduceNum(recIndex)"></input-num>
             </div>
       	</div>
     </div>
@@ -76,11 +76,10 @@ export default {
   },
 
   methods: {
-    bindMenuList(recIndex){
-      
+    bindReduceNum(recIndex){
       this.recommenData[recIndex].pieces ++ ;
     },
-    bindInputNum(recIndex){
+    bindReduceNum(recIndex){
       if (this.recommenData[recIndex].pieces > 0) {
         this.recommenData[recIndex].pieces -- ;
       }else{

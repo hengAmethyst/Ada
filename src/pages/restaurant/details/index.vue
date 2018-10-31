@@ -26,7 +26,7 @@
               </ul>
             </div>
             <div class="ada-btn">
-              <button>
+              <button @click="bindToLocation">
                 <span>{{restaurantImage.address}}</span>
                 <div class="icon-wrap">
                   <i class="icon-triangle"></i>
@@ -203,6 +203,11 @@
       bindToBooking(){
         wx.navigateTo({
           url: '/pages/restaurant/booking/main'
+        }) 
+      },
+      bindToLocation(){
+        wx.navigateTo({
+          url: '/pages/restaurant/location/main'
         }) 
       }
     },

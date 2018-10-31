@@ -76,7 +76,7 @@
         <li>分享</li>
         <li @click="bindToBill">买单</li>
       </ul>
-     <div class="voice">
+     <div class="voice" @click="bindToCall()">
        <div class="icon-wrap">
          <i></i>
        </div>
@@ -135,6 +135,11 @@ export default {
     bindToBill(){
       wx.navigateTo({
         url: '/pages/restaurant/bill/main'
+      }) 
+    },
+    bindToCall(){
+      wx.navigateTo({
+        url: '/pages/restaurant/callService/main'
       }) 
     }
   },

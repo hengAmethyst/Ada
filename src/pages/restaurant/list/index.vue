@@ -16,7 +16,9 @@
         <div class="icon-wrap">
             <i></i>
         </div>
-        <span>这是什么菜 ？</span>
+        <div @click="bindToscanQR" class="what-text">
+          <span>这是什么菜 ？</span>
+        </div>
       </div>
       <screen></screen>   
       <div class="search" @click="bindToSearch">
@@ -148,6 +150,11 @@
       }
     },
     methods: {
+      bindToscanQR(){
+        wx.navigateTo({
+          url: '/pages/restaurant/scanQR/main'
+        })
+      },
       bindToDetails(){
         wx.navigateTo({
           url: '/pages/restaurant/details/main'
@@ -228,7 +235,7 @@
           background-image:url($image-url + 'images/restaurant/details/Rectangle10@2x.png');
           background-size:cover;
         }
-        span{
+        .what-text{
           margin-left:8px;
           padding-bottom:2px;
           border-bottom:1px solid rgba(255,255,255,1);

@@ -62,6 +62,7 @@ export default {
     display:flex;
     justify-content:center;
     align-itmes:center;
+    z-index:99;
     .swiper-wrap{
       width:100%;
       height:100%;
