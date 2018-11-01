@@ -152,7 +152,7 @@
     methods: {
       bindToscanQR(){
         wx.navigateTo({
-          url: '/pages/restaurant/scanQR/main'
+          url: '/pages/restaurant/scanQR/whatDish/main'
         })
       },
       bindToDetails(){

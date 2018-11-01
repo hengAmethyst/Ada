@@ -1,5 +1,6 @@
 {
   "pages": [
+    "pages/restaurant/scanQR/whatDish/main",
     "pages/index/main",
     "pages/restaurant/bill/main",
     "pages/restaurant/search/main",
@@ -15,7 +16,6 @@
     "pages/restaurant/booked/main",
     "pages/restaurant/details/main",
     
-    "pages/restaurant/scanQR/whatDish/main",
     "pages/restaurant/scanQR/dishResult/main",
     "pages/user/userInfo/main",
     "pages/user/userOrder/main",

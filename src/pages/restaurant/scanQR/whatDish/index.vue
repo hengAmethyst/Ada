@@ -1,26 +1,34 @@
 <template>
     <div class="box">
-        <div class="section-1" @click="chooseImg">相册</div>
-
-        <div class="camera-box">
-            <camera device-position="back" flash="off" binderror="error" class="camera" v-if="showCamera"></camera>
-            <img mode="widthFix" :src="imgSrc" class="camera" v-if="!showCamera"/>
+        <div class="content">
+            <div class="scan-wrap" v-if="scanTypeActive == 0">
+                <div class="scan-box">
+                    <img mode="widthFix" :src="imgSrc" class="result-photo" v-show="showCameraResult"/>
+                </div>
+            </div>
+            
+            <div class="camera-wrap" v-if="scanTypeActive == 1">
+                <div class="camera-box">
+                    <camera device-position="back" flash="off" binderror="error" class="camera" v-show ="!showCameraResult"></camera>
+                    <img mode="widthFix" :src="imgSrc" class="result-photo" v-show="showCameraResult"/>
+                    <div class="camera-box-back"></div>
+                </div>
+                <div class="take-photo-icon" @click="takePhoto"></div>
+            </div>
+            
+            <div class="photo-album" @click="chooseImg">相册</div>
         </div>
-        
-        <div class="section-3" @click="takePhoto" v-if="showCamera"></div>
-
         <div class="section-4">
-            <div class="section-4-1">
+            <div class="section-4-1" @click="bindScanType(0)" :class="{'active':scanTypeActive == 0}">
                 <div class="section-4-1-1"></div>
+                <div class="icon-spot"></div>
                 <div class="section-4-1-2">扫码</div>
             </div>
-            <div class="section-4-2">
+            <div class="section-4-2" @click="bindScanType(1)" :class="{'active':scanTypeActive == 1}">
                 <div class="section-4-2-1"></div>
+                <div class="icon-spot"></div>
                 <div class="section-4-2-2">这是什么菜?</div>
             </div>
-        </div>
-        <div class="section-5">
-
         </div>
     </div>
 </template>
@@ -28,12 +36,21 @@
 export default {
     data(){
         return{
-           imgSrc:null,
-           showCamera: true
+            scanTypeActive:1,
+            imgSrc:null,
+            showCameraResult: false,
         }
     },
     methods:{
+        bindScanType(index){
+            this.scanTypeActive = index;
+            // wx.setNavigationBarTitle({
+            //     title: res.data.nav_name,
+            // }) 
+        },
         chooseImg(){
+            let _this = this;
+            _this.showCameraResult = true;
             wx.chooseImage({
                 count: 1,
                 sizeType: ['compressed'],
@@ -49,13 +66,14 @@ export default {
                         })
                         return
                     }
-                    this.imgSrc = tempFilePath
-                    this.uploadImg(tempFilePath)
+                    _this.imgSrc = tempFilePath
+                    _this.uploadImg(tempFilePath)
                 }
             })
         },
         takePhoto() {
-            this.showCamera = false
+            let _this = this;
+            _this.showCameraResult = true;
             const ctx = wx.createCameraContext()
             ctx.takePhoto({
                 quality: 'high',
@@ -64,12 +82,13 @@ export default {
                         title: '识别中...',
                         mask: true
                      })
-                    this.imgSrc = res.tempImagePath
-                    this.uploadImg(res.tempImagePath)
+                    _this.imgSrc = res.tempImagePath
+                    _this.uploadImg(res.tempImagePath)
                 }
             })
         },
         uploadImg(imgUrl){
+            let _this = this;
             wx.uploadFile({
                 url: 'http://api.codkui.com/?service=Menu.Menu.Distinguish',
                 filePath: imgUrl,
@@ -83,58 +102,105 @@ export default {
                         url: this.imgSrc,
                         name: name
                     }
-                    this.$store.commit('DISHINFO',dishInfo)
-                    
+                    _this.$store.commit('DISHINFO',dishInfo)
                     wx.navigateTo({url: '/pages/restaurant/scanQR/dishResult/main'})
                 }
             })
         }
     },
-    onHide(){
-        this.showCamera = true
-    }
+    // onHide(){
+    //     this.showCameraResult = false
+    // }
 }
 </script>
 <style scoped lang="scss">
+  @import "@/sass/common.scss";
     .box{
         display: flex;
         flex-direction: column;
         width: 100%;
         height: 100%;
-        background: pink;
-        .camera-box{
-            margin:0 auto;
-            margin-top:130rpx;
-            width: 572rpx; 
-            height: 572rpx; 
-            border-radius: 100%;
-            overflow: hidden;
-            .camera{
-                width:100%;
-                height:100%;
+        background: #fff;
+        .content{
+            width: 100%;
+            height: 100%;
+            background-color:rgba(0,0,0,0.6);
+            .scan-wrap{
+                padding-top:72px;
+                .scan-box{
+                    margin:0 auto;
+                    background-size: 100%;
+                    display:flex;
+                    justify-content:center;
+                    align-items:center;
+                    background-image:url($image-url + 'images/restaurant/scan/1/Group@2x.png');
+                    background-position: center center;
+                    background-repeat: no-repeat;
+                    width: 284px; 
+                    height: 284px; 
+                    background-color:rgba(0,0,0,0.6);
+                    overflow: hidden;
+                    .result-photo{
+                        width:100%;
+                    }
+                }
+            } 
+            .camera-wrap{
+                padding-top:72px;
+                .camera-box{
+                    margin:0 auto;
+                    display:flex;
+                    justify-content:center;
+                    align-items:center;
+                    width: 284px; 
+                    height: 284px; 
+                    background-color:rgba(0,0,0,0.6);
+                    overflow: hidden;
+                    position:relative;
+                    z-index:1;
+                    .camera{
+                        width:100%;
+                        height:100%;
+                        z-index:2;
+                    }
+                    .result-photo{
+                        width:100%;
+                    }
+                    .camera-box-back{
+                        position:absolute;
+                        width:100%;
+                        height:100%;
+                        background-image:url($image-url + 'images/restaurant/scan/2/ava@2x.png');
+                        background-size: 100%;
+                        background-position: center center;
+                        background-repeat: no-repeat;
+                        z-index:3;
+                    }
+                }
+                .take-photo-icon{
+                    margin: 0 auto;
+                    margin-top: 40px;
+                    width: 80px;
+                    height: 80px;
+                    border-radius: 100%;
+                    background-color:$theme-highlight;
+
+                }
+                .section-2{
+                    margin: 0 auto;
+                    margin-top: 60px;
+                    width: 570rpx;
+                    height: 570rpx;
+                    background: red;
+                }
             }
-        }
-        .section-1{
-            position: fixed;
-            top: 50rpx;
-            right: 50rpx;
-            font-size: 34rpx;
-            color: #fff;
-        }
-        .section-2{
-            margin: 0 auto;
-            margin-top: 138rpx;
-            width: 570rpx;
-            height: 570rpx;
-            background: red;
-        }
-        .section-3{
-            margin: 0 auto;
-            margin-top: 90rpx;
-            width: 160rpx;
-            height: 160rpx;
-            border-radius: 100%;
-            background: yellowgreen;
+            .photo-album{
+                position: fixed;
+                top: 50rpx;
+                right: 50rpx;
+                font-size: 34rpx;
+                color: #fff;
+            }
         }
         .section-4{
             position: fixed;
@@ -143,43 +209,66 @@ export default {
             display: flex;
             justify-content: space-around;
             width: 100%;
-            height: 200rpx;
+            height: 100px;
             background:rgba(26,26,26,0.8);
             .section-4-1{
                 display: flex;
                 flex-direction: column;
-                width: 60rpx;
+                justify-content:center;
+                align-items:center;
+                width: 80px;
                 height: 100%;
+                opacity:0.6;
                 .section-4-1-1{
-                    margin-top: 46rpx;
-                    width: 55rpx;
-                    height: 55rpx;
-                    background: red;
+                    background-image:url($image-url + 'images/restaurant/scan/1/Group2@2x.png');
+                    width: 30px;
+                    height: 30px;
+                    background-size: 100%;
+                    background-position: center center;
+                    background-repeat: no-repeat;
+                }
+                .icon-spot{
+                    width:4px;
+                    height:4px;
+                    margin:8px 0;
                 }
                 .section-4-1-2{
-                    margin-top: 46rpx;
-                    font-size: 24rpx;
+                    font-size: 12px;
                     color: #fff;
                 }
             }    
             .section-4-2{
                 display: flex;
                 flex-direction: column;
-                align-items: center;
-                width: 160rpx;
+                justify-content:center;
+                align-items:center;
+                width: 80px;
                 height: 100%;
+                opacity: 0.6;
                 .section-4-2-1{
-                    margin-top: 46rpx;
-                    width: 55rpx;
-                    height: 55rpx;
-                    background: red;
+                    background-image:url($image-url + 'images/restaurant/scan/2/Rectangle10@2x.png');
+                    width: 30px;
+                    height: 30px;
+                    background-size: 84%;
+                    background-position: center center;
+                    background-repeat: no-repeat;
+                }
+                .icon-spot{
+                    width:4px;
+                    margin:8px 0;
+                    height:4px;
                 }
                 .section-4-2-2{
-                    margin-top: 46rpx;
-                    font-size: 24rpx;
+                    font-size: 12px;
                     color: #fff;
                 }
-            }     
+            }  
+            .active{
+                opacity:1;
+                 .icon-spot{
+                    background-color:#fff;
+                }
+            }   
         }
     }
 </style>
