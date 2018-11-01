@@ -1,6 +1,6 @@
 <template>
     <div class="box">
-        <div class="section-1">相册</div>
+        <div class="section-1" @click="chooseImg">相册</div>
 
         <div class="camera-box">
             <camera device-position="back" flash="off" binderror="error" class="camera" v-if="showCamera"></camera>
@@ -33,6 +33,27 @@ export default {
         }
     },
     methods:{
+        chooseImg(){
+            wx.chooseImage({
+                count: 1,
+                sizeType: ['compressed'],
+                sourceType: ['album', 'camera'],
+                success: (res) => {
+                    // tempFilePath可以作为img标签的src属性显示图片
+                    const tempFilePath = res.tempFilePaths[0]
+                    if(res.tempFiles[0].size > 512000){
+                        wx.showToast({
+                            title: '图片过大',
+                            icon: 'none',
+                            duration: 2000
+                        })
+                        return
+                    }
+                    this.imgSrc = tempFilePath
+                    this.uploadImg(tempFilePath)
+                }
+            })
+        },
         takePhoto() {
             this.showCamera = false
             const ctx = wx.createCameraContext()
