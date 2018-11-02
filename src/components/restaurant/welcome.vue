@@ -11,15 +11,20 @@
 		  				蜀都飘香火锅酒楼
 		  			</li>
 		  			<li class="t">
-		  				<span v-if="firends">您和您的朋友已经提前点好了菜品</span>
+		  				<span v-if="oedered">您和您的朋友已经提前点好了菜品</span>
 		  			</li>
 		  		</ul>
 		  	</div>
-			<div class="btn">
-				我也要先点餐
+			<div class="btn-wrap">
+				<div class="oedered" @click="bindBtn" v-if="oedered">
+					<span>我的菜单</span>
+				</div>
+				<div class="oeder" @click="bindBtn" v-else>
+					<span>我也要先点餐</span>
+				</div>
 			</div>	 
-			<div class="close">
-		  		<div class="icon-wrap">
+			<div class="close" >
+		  		<div class="icon-wrap" @click="bindClose">
 		  			<i></i>
 		  		</div>
 		  	</div> 		
@@ -34,7 +39,7 @@ export default {
   	props: ['welcomeShow'],
   	data () {
     	return {
-    		firends:0,
+    		oedered:1,
 	    	friendsList:[
 		        {
 		          image:'http://cdn.awbchina.com/wximage/default.png',
@@ -59,6 +64,12 @@ export default {
   	components: {
   	},
   	methods: {
+  		bindBtn(){
+            this.$emit('bindBtn');
+        },
+        bindClose(){
+            this.$emit('bindClose');
+        },
   	},
 
   	created () {
@@ -114,7 +125,7 @@ export default {
 			color:rgba(153,153,153,1);
 			margin-bottom:40px;
 		}
-		.btn{
+		.btn-wrap{
 			width:100%;
 			height:50px;
 			margin-top:12px;

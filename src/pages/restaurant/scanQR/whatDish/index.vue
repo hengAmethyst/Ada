@@ -13,7 +13,14 @@
                     <img mode="widthFix" :src="imgSrc" class="result-photo" v-show="showCameraResult"/>
                     <div class="camera-box-back"></div>
                 </div>
-                <div class="take-photo-icon" @click="takePhoto"></div>
+                <div class="take-photo-icon" @click="takePhoto">
+                    <div class="icon-wrap">
+                        <i class="icon-1"></i>
+                        <i class="icon-2">
+                            <i class="icon-3"></i>
+                        </i>
+                    </div>
+                </div>
             </div>
             
             <div class="photo-album" @click="chooseImg">相册</div>
@@ -50,7 +57,6 @@ export default {
         },
         chooseImg(){
             let _this = this;
-            _this.showCameraResult = true;
             wx.chooseImage({
                 count: 1,
                 sizeType: ['compressed'],
@@ -64,8 +70,14 @@ export default {
                             icon: 'none',
                             duration: 2000
                         })
-                        return
+                        _this.showCameraResult = false;
+                        return false
                     }
+                    _this.showCameraResult = true;
+                    wx.showLoading({
+                        title: '识别中...',
+                        mask: true
+                    })
                     _this.imgSrc = tempFilePath
                     _this.uploadImg(tempFilePath)
                 }
@@ -73,12 +85,12 @@ export default {
         },
         takePhoto() {
             let _this = this;
-            _this.showCameraResult = true;
             const ctx = wx.createCameraContext()
             ctx.takePhoto({
                 quality: 'high',
                 success: (res) => {
-                     wx.showLoading({
+                    _this.showCameraResult = true;
+                    wx.showLoading({
                         title: '识别中...',
                         mask: true
                      })
@@ -94,13 +106,13 @@ export default {
                 filePath: imgUrl,
                 name: 'file',
                 success: (r)=>{
-                     wx.hideLoading()
+                    wx.hideLoading()
                     let data = JSON.parse(r.data)
-                    let name = data.data.result[0].name
+                    let result = data.data.result
                    
                     let dishInfo = {
-                        url: this.imgSrc,
-                        name: name
+                        url: _this.imgSrc,
+                        result: result
                     }
                     _this.$store.commit('DISHINFO',dishInfo)
                     wx.navigateTo({url: '/pages/restaurant/scanQR/dishResult/main'})
@@ -108,9 +120,9 @@ export default {
             })
         }
     },
-    // onHide(){
-    //     this.showCameraResult = false
-    // }
+    onHide(){
+        this.showCameraResult = false
+    }
 }
 </script>
 <style scoped lang="scss">
@@ -184,6 +196,36 @@ export default {
                     height: 80px;
                     border-radius: 100%;
                     background-color:$theme-highlight;
+                    .icon-wrap{
+                        width:100%;
+                        height:100%;
+                        display:flex;
+                        flex-direction: column;
+                        justify-content: center;
+                        align-items: center;
+                        .icon-1{
+                            width:18px;
+                            height:3px;
+                            margin-bottom: 4px;
+                            background:rgba(255,255,255,1);
+                            box-shadow:0px 1px 2px 0px rgba(180,6,25,1);
+                        }
+                        .icon-2{
+                            width:42px;
+                            height:27px;
+                            background:rgba(255,255,255,1);
+                            box-shadow:0px 1px 2px 0px rgba(180,6,25,1);
+                            display:flex;
+                            justify-content:center;
+                            align-items:center;
+                            .icon-3{
+                                width:18px;
+                                height:18px;
+                                border-radius:50%;
+                                background:rgba(225,11,34,1);
+                            }
+                        }
+                    }
 
                 }
                 .section-2{

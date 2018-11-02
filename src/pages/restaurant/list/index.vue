@@ -1,8 +1,7 @@
 <template>
   <div class="wrap">
-    <div v-show="!infoShow" class="head-padding"></div>
-    <div class="head" :class="{'head-fixed' : !infoShow}">
-      <div class="info" v-show="infoShow">
+    <div class="head">
+      <div class="info">
         <div class="hello">
           <span>Hello，</span>
         </div>
@@ -12,21 +11,25 @@
           </span>
         </div>
       </div>
-      <div class="what">
-        <div class="icon-wrap">
-            <i></i>
-        </div>
-        <div @click="bindToscanQR" class="what-text">
-          <span>这是什么菜 ？</span>
-        </div>
-      </div>
-      <screen></screen>   
-      <div class="search" @click="bindToSearch">
-        <div class="icon-wrap"></div>
-      </div>
-      <div class="avatar">
-        <div class="image-wrap">
-          <img src="http://insurance.awbchina.com/ada/images/restaurant/details/avatar@2x.png" alt="">
+      <div class="tool-wrap">
+        <div class="tool-box" :class="{'tool-fixed' : !scrollTopFlag}">
+          <div class="avatar">
+            <div class="image-wrap">
+              <img src="http://insurance.awbchina.com/ada/images/restaurant/details/avatar@2x.png" alt="">
+            </div>
+          </div>
+           <div class="what">
+            <div class="icon-wrap">
+                <i></i>
+            </div>
+            <div @click="bindToscanQR" class="what-text">
+              <span>这是什么菜 ？</span>
+            </div>
+          </div>
+          <screen></screen>   
+          <div class="search" @click="bindToSearch">
+            <div class="icon-wrap"></div>
+          </div>
         </div>
       </div>
     </div>
@@ -64,8 +67,8 @@
         </li>
       </ul>
     </div> 
-    <invitation :invitationShow="invitationShow"></invitation>   
-    <welcome :welcomeShow="welcomeShow"></welcome>   
+    <invitation :invitationShow="invitationShow" @bindClose = "bindInvClose" @bindBtn = "bindInvBtn"></invitation>   
+    <welcome :welcomeShow="welcomeShow" @bindClose = "bindClose" @bindBtn = "bindBtn"></welcome>   
   </div>
 </template>
 
@@ -121,7 +124,7 @@
         restList:[],
         invitationShow:0,
         welcomeShow:0,
-        infoShow:1
+        scrollTopFlag:1
       }
     },
     computed: {
@@ -144,12 +147,24 @@
     },
     onPageScroll:function(e){
       if (e.scrollTop >= 120) {
-        this.infoShow = 0
+        this.scrollTopFlag = 0
       }else{
-        this.infoShow = 1
+        this.scrollTopFlag = 1
       }
     },
     methods: {
+      bindClose(){
+        this.welcomeShow = 0 ;
+      },
+      bindBtn(){
+        this.welcomeShow = 0 ;
+      },
+      bindInvClose(){
+        this.invitationShow = 0 ;
+      },
+      bindInvBtn(){
+        this.invitationShow = 0 ;
+      },
       bindToscanQR(){
         wx.navigateTo({
           url: '/pages/restaurant/scanQR/whatDish/main'
@@ -185,10 +200,14 @@
     },
 
     created () {
+      this.fetchRestList()
       // 调用应用实例的方法获取全局数据
     },
-    mounted(){
-      this.fetchRestList()
+    onLoad(e){
+      if (this.$root.$mp.query.id) {
+        this.welcomeShow = 1 ;
+      }
+      this.scrollTopFlag = 1;
     }
   }
 </script>
@@ -205,6 +224,8 @@
       box-sizing: border-box;
       .info{
         padding-top: 20px;
+        height:120px;
+        box-sizing:border-box;
         .hello{
           opacity: 0.5;
           color: rgba(253, 253, 253, 1);
@@ -220,25 +241,62 @@
           font-family: PingFangSC-Regular;
         }
       }
-      .what{
-        font-size:15px;
-        padding-top: 20px;
-        opacity: 0.5;
-        color: rgba(253, 253, 253, 1);
-        margin-bottom:30px;
-        display:flex;
-        padding-left: 15px;
-        align-items:center;
-        .icon-wrap{
-          width:20px;
-          height:20px;
-          background-image:url($image-url + 'images/restaurant/details/Rectangle10@2x.png');
-          background-size:cover;
+      .tool-wrap{
+        height:103px;
+        width:100%;
+        .tool-box{
+          height:103px;
+          width:100%;
+           .what{
+            font-size:15px;
+            padding-top: 20px;
+            opacity: 0.5;
+            color: rgba(253, 253, 253, 1);
+            margin-bottom:30px;
+            display:flex;
+            padding-left: 15px;
+            align-items:center;
+            .icon-wrap{
+              width:20px;
+              height:20px;
+              background-image:url($image-url + 'images/restaurant/details/Rectangle10@2x.png');
+              background-size:cover;
+            }
+            .what-text{
+              margin-left:8px;
+              padding-bottom:2px;
+              border-bottom:1px solid rgba(255,255,255,1);
+            }
+          }
         }
-        .what-text{
-          margin-left:8px;
-          padding-bottom:2px;
-          border-bottom:1px solid rgba(255,255,255,1);
+        .tool-fixed{
+          background-color: $theme-color;
+          z-index:54;
+          position:fixed;
+          top:0;
+          left:0;
+          .search{
+            right:65px;
+            top:20px;
+          }
+        }
+        .avatar{
+          position:absolute;
+          width:40px;
+          height:40px;
+          border-radius:50%;
+          right:15px;
+          top:20px;
+          overflow:hidden;
+          z-index:55;
+          .image-wrap{
+            width:100%;
+            height:100%;
+            img{
+              width:100%;
+              height:100%;
+            }
+          }
         }
       }
       .search{
@@ -255,36 +313,7 @@
           box-shadow: 0px 16px 34px 0px rgba(0, 0, 0, 0.16);
         }
       }
-      .avatar{
-        position:absolute;
-        width:40px;
-        height:40px;
-        border-radius:50%;
-        right:15px;
-        top:20px;
-        overflow:hidden;
-        .image-wrap{
-          width:100%;
-          height:100%;
-          img{
-            width:100%;
-            height:100%;
-          }
-        }
-      }
-    }
-    .head-fixed{
-      position:fixed;
-      top:0;
-      left:0;
-      z-index:98;
-      .search{
-        right:65px;
-        top:20px;
-      }
-    }
-    .head-padding{
-      height:224px;
+      
     }
     .content{
       width: 100%;

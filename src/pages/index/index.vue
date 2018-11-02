@@ -8,7 +8,7 @@
       </div>
       <div class="section-1-2">
         <div class="welcoming">{{weatherInfo.welcoming}}</div>
-        <div class="icon-wrap">
+        <div class="icon-wrap" @click="scanCode">
           <i class="icon-scan"></i>
         </div>
       </div>
@@ -53,12 +53,21 @@
       ]),
     },
     methods: {
-      
       bindToList(){
         wx.navigateTo({
           url: '/pages/restaurant/list/main'
         })
       },
+      scanCode(){
+        wx.scanCode({
+          success (res) {
+            console.log(res)
+            wx.navigateTo({
+              url: '/pages/restaurant/list/main?id=5'
+            })
+          }
+        })
+      }
     },
 
     created () {

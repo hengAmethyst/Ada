@@ -57,11 +57,11 @@
 					</div>
 				</div>
 			</div>
-			<div class="btn">
+			<div class="btn" @click="bindBtn">
 				我也要先点餐
 			</div>	 
 			<div class="close">
-		  		<div class="icon-wrap">
+		  		<div class="icon-wrap"  @click="bindClose">
 		  			<i></i>
 		  		</div>
 		  	</div> 		
@@ -101,6 +101,12 @@ export default {
   	components: {
   	},
   	methods: {
+  		bindBtn(){
+            this.$emit('bindBtn');
+        },
+        bindClose(){
+            this.$emit('bindClose');
+        },
   	},
 
   	created () {

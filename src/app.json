@@ -1,7 +1,7 @@
 {
   "pages": [
-    "pages/restaurant/scanQR/whatDish/main",
     "pages/index/main",
+    "pages/restaurant/scanQR/whatDish/main",
     "pages/restaurant/bill/main",
     "pages/restaurant/search/main",
     "pages/restaurant/booking/main",
